@@ -39,27 +39,4 @@ public class Crowd : MonoBehaviour
         waypoint = allWaypoints[Random.Range(0, allWaypoints.Length)];
     }
 
-        /*    private void Update()
-            {
-                if (waypoint != null)
-                {
-                    if (Vector3.Distance(this.transform.position, waypoint.transform.position) <= 2f)
-                    {
-                        FindWaypoint();
-                    }
-                }
-            }
-
-            public void FindWaypoint()
-            {
-                if (waypoint != null)
-                {
-                    waypoint.transform.tag = "Waypoint";
-                }
-                allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint");
-                waypoint = allWaypoints[Random.Range(0, allWaypoints.Length)];
-                waypoint.transform.tag = "Untagged";
-
-                navMeshAgent.SetDestination(waypoint.transform.position);
-            }*/
-    }
+}

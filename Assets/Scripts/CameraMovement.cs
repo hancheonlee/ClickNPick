@@ -2,14 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMove : MonoBehaviour
+public class CameraMovement : MonoBehaviour
 {
     private Vector3 Origin;
     private Vector3 Difference;
 
+    private Vector3 targetPosition;
+
     private bool drag = false;
 
+    public bool isFocusing;
 
+    public float focusSpeed;
+
+
+    private ZoomControl zoomControl;
+    private void Start()
+    {
+        isFocusing = false;
+        zoomControl = FindAnyObjectByType<ZoomControl>();
+    }
     private void LateUpdate()
     {
         // Mouse Input
@@ -27,25 +39,26 @@ public class CameraMove : MonoBehaviour
             drag = false;
         }
 
-/*        // Touch Input
-        if (Input.touchCount == 1) // Single touch
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
-            {
-                Origin = Camera.main.ScreenToWorldPoint(touch.position);
-            }
-            if (touch.phase == TouchPhase.Moved)
-            {
-                Difference = (Camera.main.ScreenToWorldPoint(touch.position)) - Camera.main.transform.position;
-                Camera.main.transform.position = Origin - Difference;
-            }
-        }*/
-
         if (drag)
         {
             Camera.main.transform.position = Origin - Difference;
         }
 
     }
+
+    public void FocusMode(Vector3 target)
+    {
+        isFocusing = true;
+        targetPosition = new Vector3(target.x, target.y, transform.position.z);
+        zoomControl.isZooming = true;
+    }
+
+    private void Update()
+    {
+        if (isFocusing)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * focusSpeed);
+        }
+    }
+
 }

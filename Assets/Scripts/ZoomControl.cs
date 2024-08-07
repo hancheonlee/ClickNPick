@@ -8,6 +8,10 @@ public class ZoomControl : MonoBehaviour
     public float smoothChange;
     public float minSize, maxSize;
 
+    public bool isZooming;
+
+    public float zoomSpeed;
+
     private Camera cam;
 
     private void Start()
@@ -47,5 +51,16 @@ public class ZoomControl : MonoBehaviour
         }
 
         cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minSize, maxSize);
+
+
+        if (isZooming)
+        {
+            cam.orthographicSize = Mathf.MoveTowards(cam.orthographicSize, 3, zoomSpeed * Time.deltaTime);
+            if (cam.orthographicSize <= 3)
+            {
+                isZooming = false;
+            }
+        }
+
     }
 }

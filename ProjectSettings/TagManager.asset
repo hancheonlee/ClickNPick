@@ -6,6 +6,8 @@ TagManager:
   tags:
   - InformativeObject
   - Waypoint
+  - Cats
+  - Dogs
   layers:
   - Default
   - TransparentFX

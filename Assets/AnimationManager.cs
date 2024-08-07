@@ -20,6 +20,10 @@ public class AnimationManager : MonoBehaviour
     [SerializeField] private bool male04;
     [SerializeField] private bool female03;
     [SerializeField] private bool female04;
+    [SerializeField] private bool cat01;
+    [SerializeField] private bool cat02;
+    [SerializeField] private bool dog01;
+    [SerializeField] private bool dog02;
 
     private void Start()
     {
@@ -58,7 +62,22 @@ public class AnimationManager : MonoBehaviour
             {
                 anim.Play("Female04_Walking");
             }
-
+            else if (cat01)
+            {
+                anim.Play("Cat01_Walking");
+            }
+            else if (cat02)
+            {
+                anim.Play("Cat02_Walking");
+            }
+            else if (dog01)
+            {
+                anim.Play("Dog01_Walking");
+            }
+            else if (dog02)
+            {
+                anim.Play("Dog02_Walking");
+            }
         }
         else if (currentState == animationState.Backward)
         {
@@ -78,7 +97,22 @@ public class AnimationManager : MonoBehaviour
             {
                 anim.Play("Female04_Walking2");
             }
-
+            else if (cat01)
+            {
+                anim.Play("Cat01_Walking2");
+            }
+            else if (cat02)
+            {
+                anim.Play("Cat02_Walking2");
+            }
+            else if (dog01)
+            {
+                anim.Play("Dog01_Walking2");
+            }
+            else if (dog02)
+            {
+                anim.Play("Dog02_Walking2");
+            }
         }
         else
         {
@@ -98,8 +132,23 @@ public class AnimationManager : MonoBehaviour
             {
                 anim.Play("Female04_Idle");
             }
+            else if (cat01)
+            {
+                anim.Play("Cat01_Idle");
+            }
+            else if (cat02)
+            {
+                anim.Play("Cat02_Idle");
+            }
+            else if (dog01)
+            {
+                anim.Play("Dog01_Idle");
+            }
+            else if (dog02)
+            {
+                anim.Play("Dog02_Idle");
+            }
         }
-
 
         Vector3 direction = transform.position - lastPosition;
         lastPosition = transform.position;
@@ -125,6 +174,4 @@ public class AnimationManager : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         }
     }
-
-     
 }

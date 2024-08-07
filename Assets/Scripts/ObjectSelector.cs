@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class ObjectSelector : MonoBehaviour
 {
-    public string selectableTag = "InformativeObject";
+    public string[] selectableTag;
 
     private InformativeObjectBehaviour objects;
     
     private AudioManager audioManager;
 
+    private CameraMovement cameraMovement;
+
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
+        cameraMovement = FindAnyObjectByType<CameraMovement>();
     }
     private void Update()
     {
@@ -28,7 +31,7 @@ public class ObjectSelector : MonoBehaviour
         Vector2 worldPosition = Camera.main.ScreenToWorldPoint(inputPosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
 
-        if (hit.collider != null && hit.collider.CompareTag(selectableTag))
+        if (hit.collider != null && hit.collider.CompareTag("InformativeObject"))
         {
             GameObject hitObject = hit.collider.gameObject;
             if (objects != null && objects.gameObject == hitObject)
@@ -38,11 +41,21 @@ public class ObjectSelector : MonoBehaviour
             else
             {
                 SelectObject(hitObject);
+                cameraMovement.FocusMode(hitObject.transform.position);    // Focus on object
             }
+        }
+        else if (hit.collider != null && hit.collider.CompareTag("Cats"))
+        {
+            audioManager.PlaySFX("Meow");
+        }
+        else if (hit.collider != null && hit.collider.CompareTag("Dogs"))
+        {
+            audioManager.PlaySFX("Bark");
         }
         else
         {
             DeselectObject();
+            cameraMovement.isFocusing = false;
         }
     }
 

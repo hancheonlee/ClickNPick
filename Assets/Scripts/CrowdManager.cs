@@ -16,15 +16,27 @@ public class CrowdManager : MonoBehaviour
         StartCoroutine(SpawnCrowd());
     }
 
+    private void Update()
+    {
+        crowd.RemoveAll(crowdMember => crowdMember == null);
+
+        if (crowd.Count == crowdSize)
+        {
+            StartCoroutine(SpawnCrowd());
+        }
+    }
+
     IEnumerator SpawnCrowd()
     {
-        for (int i = 0; i < crowdSize; i++)
+        Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        GameObject randomCrowds = crowdPrefab[Random.Range(0, crowdPrefab.Length)];
+        GameObject newHuman = Instantiate(randomCrowds, randomSpawnPoint.position, Quaternion.identity);
+        crowd.Add(newHuman);
+        yield return new WaitForSeconds(spawnRate);
+
+        if (crowd.Count <= crowdSize)
         {
-            Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            GameObject randomCrowds = crowdPrefab[Random.Range(0, crowdPrefab.Length)];
-            GameObject newHuman = Instantiate(randomCrowds, randomSpawnPoint.position, Quaternion.identity);
-            crowd.Add(newHuman);
-            yield return new WaitForSeconds(spawnRate);
+            StartCoroutine(SpawnCrowd());
         }
     }
 }

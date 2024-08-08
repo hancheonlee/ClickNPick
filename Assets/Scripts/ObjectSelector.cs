@@ -1,10 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
+
 
 public class ObjectSelector : MonoBehaviour
 {
     public GameObject Tower1_Panel; //Damian
+    public Text infoText;  //Damian
+    public string selectedObjectInfo;  //Damian
 
     public string selectableTag = "InformativeObject";
 
@@ -15,7 +18,16 @@ public class ObjectSelector : MonoBehaviour
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
-        Tower1_Panel.SetActive(false); //Damian
+    
+        if (Tower1_Panel != null)  //Damian
+        {
+           Tower1_Panel.SetActive(false);
+        }
+        else
+        {
+           Debug.Log("Info Panel is not assigned in the Inspector");
+        }
+
     }
     private void Update()
     {
@@ -75,12 +87,14 @@ public class ObjectSelector : MonoBehaviour
         if (objects.selected)
         {
             audioManager.PlaySFX("Select");
-            ShowInfoPanel(); //Damian
+            ShowInfoPanel(selectedObjectInfo); //Damian
+            Tower1_Panel.SetActive(true); //Damian
         }
     }
 
-    void ShowInfoPanel()
+    void ShowInfoPanel(string info)
     {
+        infoText.text = info; //Damian
         Tower1_Panel.SetActive(true); //Damian
     }
 }

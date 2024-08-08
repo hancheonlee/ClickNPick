@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ObjectSelector : MonoBehaviour
 {
+    public GameObject Tower1_Panel; //Damian
+
     public string selectableTag = "InformativeObject";
 
     private InformativeObjectBehaviour objects;
@@ -13,6 +15,7 @@ public class ObjectSelector : MonoBehaviour
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
+        Tower1_Panel.SetActive(false); //Damian
     }
     private void Update()
     {
@@ -72,6 +75,12 @@ public class ObjectSelector : MonoBehaviour
         if (objects.selected)
         {
             audioManager.PlaySFX("Select");
+            ShowInfoPanel(); //Damian
         }
+    }
+
+    void ShowInfoPanel()
+    {
+        Tower1_Panel.SetActive(true); //Damian
     }
 }

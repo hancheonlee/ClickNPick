@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ZoomControl : MonoBehaviour
@@ -9,14 +10,18 @@ public class ZoomControl : MonoBehaviour
     public float minSize, maxSize;
 
     public bool isZooming;
+    public bool listening;
 
     public float zoomSpeed;
 
     private Camera cam;
 
+    private CrowdChatMessage chatMessage;
+
     private void Start()
     {
         cam = GetComponent<Camera>();
+        chatMessage = FindAnyObjectByType<CrowdChatMessage>();
     }
 
     private void Update()
@@ -62,5 +67,26 @@ public class ZoomControl : MonoBehaviour
             }
         }
 
+        if (!chatMessage.showing && listening && cam.orthographicSize < 3)
+        {
+            chatMessage.showing = true;
+            StartCoroutine(chatMessage.ShowRandomMessage());
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Crowds"))
+        {
+            listening = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Crowds"))
+        {
+            listening = false;
+        }
     }
 }

@@ -8,6 +8,8 @@ TagManager:
   - Waypoint
   - Cats
   - Dogs
+  - Animals
+  - Crowds
   layers:
   - Default
   - TransparentFX

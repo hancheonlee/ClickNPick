@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.seanba.super-tiled2unity": "file:C:/Users/Damian/Downloads/super-tiled2unity.v2.2.1",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.collab-proxy": "2.4.4",
     "com.unity.feature.2d": "2.0.1",

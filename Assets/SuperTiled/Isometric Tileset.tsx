@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.11.0" name="Isometric Tileset" tilewidth="32" tileheight="32" tilecount="256" columns="16">
- <image source="../PixelartAssets/TestTile-0001-export.png" width="512" height="256"/>
+ <image source="../../../Documents/GitHub/ClickNPick/Assets/SuperTiled/TestTile-0001-export.png" width="512" height="256"/>
  <tile id="0"/>
  <tile id="1"/>
  <tile id="2"/>

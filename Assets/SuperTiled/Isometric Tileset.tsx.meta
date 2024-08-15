@@ -8,10 +8,10 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: cc34d0f3dc257a442819830b408c5322, type: 3}
-  missingFiles:
-  - ../PixelartAssets/TestTile-0001-export.png
+  missingFiles: []
   errors:
-  - 'Missing texture asset: ../PixelartAssets/TestTile-0001-export.png'
+  - Could not generate asset path for '../../../Documents/GitHub/ClickNPick/Assets/SuperTiled/TestTile-0001-export.png'
+  - 'Missing texture asset: ../../../Documents/GitHub/ClickNPick/Assets/SuperTiled/TestTile-0001-export.png'
   warnings: []
   missingSortingLayers: []
   missingLayers: []

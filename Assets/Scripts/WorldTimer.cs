@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WorldTimer : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class WorldTimer : MonoBehaviour
 
     private int newHours;
     private int newMinutes;
+
+    public Button transitionButton;
 
     private void Start()
     {
@@ -39,12 +42,28 @@ public class WorldTimer : MonoBehaviour
             timerText.text = string.Format("{0:00}:{1:00}", hours, minutes);
         }
 
-        if (hours == 20 && minutes == 0 && !skippingTime)
+        if (hours == 23 && minutes == 55 && !skippingTime)
         {
             skippingTime = true;
             StartCoroutine(TransitionNightToDay());
 
         }
+
+        // Show button after 8 PM
+        if (hours >= 20 && !skippingTime)
+        {
+            transitionButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            transitionButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void TransitionButton()
+    {
+        skippingTime = true;
+        StartCoroutine(TransitionNightToDay());
     }
 
     private IEnumerator TransitionNightToDay()
@@ -52,13 +71,12 @@ public class WorldTimer : MonoBehaviour
         Debug.Log("Transition");
         transitionCanvas.SetActive(true);
         yield return new WaitForSeconds(4);
-        transitionCanvas.SetActive(false);
         hours = 8;
         minutes = 0;
         newHours = 8; 
         newMinutes = 0;
         timer = hours * 3600f + minutes * 60f;
-
+        transitionCanvas.SetActive(false);
         skippingTime = false;
     }
 }

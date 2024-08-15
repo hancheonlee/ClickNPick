@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 30
   m_Sprite: {fileID: -2020924196, guid: 291fb0bcfe223444cbf1035f40d003b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -146,6 +146,8 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   waypoint: {fileID: 0}
   allWaypoints: []
+  fadeDuration: 2
+  exclusionRange: 5
 --- !u!114 &4574992756378614891
 MonoBehaviour:
   m_ObjectHideFlags: 0

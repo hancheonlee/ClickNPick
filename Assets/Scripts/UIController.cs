@@ -74,6 +74,7 @@ public class UIController : MonoBehaviour
     {
         optionsUI.SetActive(true);
         settingsButton.SetActive(false);
+        AudioManager.Instance.PlaySFX("Pause");
 
         Time.timeScale = 0f;
 
@@ -86,7 +87,7 @@ public class UIController : MonoBehaviour
         optionsUI.SetActive(false);
         settingsButton.SetActive(true);
         SaveSettings();
-        AudioManager.Instance.PlaySFX("Click");
+        AudioManager.Instance.PlaySFX("Back");
 
         Time.timeScale = 1f;
 

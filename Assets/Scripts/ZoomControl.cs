@@ -52,7 +52,9 @@ public class ZoomControl : MonoBehaviour
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             // Adjust the orthographic size based on the change in distance between the touches
-            cam.orthographicSize += deltaMagnitudeDiff * -zoomChange/50 * Time.deltaTime * smoothChange;
+            cam.orthographicSize += deltaMagnitudeDiff * zoomChange/50 * Time.deltaTime * smoothChange;
+
+            Debug.Log(deltaMagnitudeDiff);
         }
 
         cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minSize, maxSize);
@@ -67,7 +69,7 @@ public class ZoomControl : MonoBehaviour
             }
         }
 
-        if (!chatMessage.showing && listening && cam.orthographicSize < 3)
+        if (!chatMessage.showing && listening && cam.orthographicSize < 4)
         {
             chatMessage.showing = true;
             StartCoroutine(chatMessage.ShowRandomMessage());

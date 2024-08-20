@@ -31,7 +31,7 @@ public class CrowdChatMessage : MonoBehaviour
             int randomIndex = Random.Range(0, crowdMessages.Length);
             crowdText.text = crowdMessages[randomIndex];
         }
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         chatCanvas.enabled = false;
         showing = false;
     }

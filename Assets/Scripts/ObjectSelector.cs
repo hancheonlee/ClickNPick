@@ -31,10 +31,11 @@ public class ObjectSelector : MonoBehaviour
         Vector2 worldPosition = Camera.main.ScreenToWorldPoint(inputPosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
 
-        if (hit.collider != null && hit.collider.CompareTag("InformativeObject"))
+        if (hit.collider != null)
         {
             GameObject hitObject = hit.collider.gameObject;
-            if (objects != null && objects.gameObject == hitObject)
+
+            if (IsSelectable(hitObject))
             {
                 OnSelectedObjectAction();
             }
@@ -69,6 +70,18 @@ public class ObjectSelector : MonoBehaviour
         objects = selectedObject.GetComponent<InformativeObjectBehaviour>();
         objects.selected = true;
         audioManager.PlaySFX("Highlight");
+    }
+
+    bool IsSelectable(GameObject obj)
+    {
+        foreach (var tag in selectableTag)
+        {
+            if (obj.CompareTag(tag))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void DeselectObject()

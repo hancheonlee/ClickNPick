@@ -10,6 +10,8 @@ TagManager:
   - Dogs
   - Animals
   - Crowds
+  - InteractableObject
+  - InteractableCharacter
   layers:
   - Default
   - TransparentFX

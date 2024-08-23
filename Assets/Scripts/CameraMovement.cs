@@ -9,7 +9,7 @@ public class CameraMovement : MonoBehaviour
 
     private Vector3 targetPosition;
 
-    private bool drag = false;
+    public bool drag = false;
 
     public bool isFocusing;
 

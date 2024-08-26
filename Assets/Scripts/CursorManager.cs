@@ -12,6 +12,7 @@ public class CursorManager : MonoBehaviour
     public float clickHoldTime = 0.2f;
     private float clickTime = 0f;
 
+    public Vector2 cursorHotspot;
 
     public cursorState currentState;
 
@@ -24,7 +25,7 @@ public class CursorManager : MonoBehaviour
 
     void Start()
     {
-        Cursor.SetCursor(cursorIdle, Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(cursorIdle, cursorHotspot, CursorMode.Auto);
 
         cameraMovement = FindAnyObjectByType<CameraMovement>();
     }
@@ -32,6 +33,34 @@ public class CursorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        StateControl();
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("InteractableObject"))
+            {
+                currentState = cursorState.Object;
+            }
+            else if (hit.collider.CompareTag("InteractableCharacter"))
+            {
+                currentState = cursorState.Character;
+            }
+        }
+        else
+        {
+            if (clickTime > clickHoldTime)
+            {
+                currentState = cursorState.Grabbing;
+            }
+            else
+            {
+                currentState = cursorState.Idle;
+            }
+        }
+
         if (Input.GetMouseButtonDown(0)) // Left-click
         {
             clickTime = 0;
@@ -46,31 +75,29 @@ public class CursorManager : MonoBehaviour
         }
 
 
+
+
+
+
+    }
+
+    void StateControl()
+    {
         if (currentState == cursorState.Grabbing)
         {
-            Cursor.SetCursor(cursorGrab, Vector2.zero, CursorMode.Auto);
+            Cursor.SetCursor(cursorGrab, cursorHotspot, CursorMode.Auto);
         }
         else if (currentState == cursorState.Object)
         {
-            Cursor.SetCursor(cursorObject, Vector2.zero, CursorMode.Auto);
+            Cursor.SetCursor(cursorObject, cursorHotspot, CursorMode.Auto);
         }
         else if (currentState == cursorState.Character)
         {
-            Cursor.SetCursor(cursorCharacter, Vector2.zero, CursorMode.Auto);
-        }
-        else 
-        {
-            Cursor.SetCursor(cursorIdle, Vector2.zero, CursorMode.Auto);
-        }
-
-        if (clickTime > clickHoldTime)
-        {
-            currentState = cursorState.Grabbing;
+            Cursor.SetCursor(cursorCharacter, cursorHotspot, CursorMode.Auto);
         }
         else
         {
-            currentState = cursorState.Idle;
+            Cursor.SetCursor(cursorIdle, cursorHotspot, CursorMode.Auto);
         }
-
     }
 }

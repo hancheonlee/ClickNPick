@@ -14768,7 +14768,8 @@ MonoBehaviour:
   cursorGrab: {fileID: 2800000, guid: a00ef572e62748c438bb5afd6fda5635, type: 3}
   cursorObject: {fileID: 2800000, guid: f6973fcc1f7cc5745a491927291558f5, type: 3}
   cursorCharacter: {fileID: 2800000, guid: 2429b7e489b05174ba7a7eb5ff90beee, type: 3}
-  clickHoldTime: 0.1
+  clickHoldTime: 0.125
+  cursorHotspot: {x: 16.5, y: 7.22}
   currentState: 0
   cameraMovement: {fileID: 0}
 --- !u!1 &1399389843
@@ -17522,11 +17523,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 550918879677235513, guid: e64537b52f0c6d84bbe10107a46126f9, type: 3}
       propertyPath: selectableTag.Array.data[0]
-      value: InteractiveObject
+      value: InteractableObject
       objectReference: {fileID: 0}
     - target: {fileID: 550918879677235513, guid: e64537b52f0c6d84bbe10107a46126f9, type: 3}
       propertyPath: selectableTag.Array.data[1]
-      value: InteractiveCharacter
+      value: InteractableCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 550918879677235513, guid: e64537b52f0c6d84bbe10107a46126f9, type: 3}
       propertyPath: selectableTag.Array.data[2]

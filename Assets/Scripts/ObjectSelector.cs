@@ -7,7 +7,7 @@ public class ObjectSelector : MonoBehaviour
     public string[] selectableTag;
 
     private InformativeObjectBehaviour objects;
-    
+
     private AudioManager audioManager;
 
     private CameraMovement cameraMovement;
@@ -30,34 +30,38 @@ public class ObjectSelector : MonoBehaviour
     {
         Vector2 worldPosition = Camera.main.ScreenToWorldPoint(inputPosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
-
         if (hit.collider != null)
         {
-            GameObject hitObject = hit.collider.gameObject;
-
-            if (IsSelectable(hitObject))
+            Debug.Log("Click");
+            if (hit.collider.CompareTag("InteractableObject") || hit.collider.CompareTag("InteractableCharacter"))
             {
-                OnSelectedObjectAction();
+                Debug.Log("Click2");
+                GameObject hitObject = hit.collider.gameObject;
+                if (objects != null && objects.gameObject == hitObject)
+                {
+                    OnSelectedObjectAction();
+                }
+                else
+                {
+                    SelectObject(hitObject);
+                    cameraMovement.FocusMode(hitObject.transform.position);    // Focus on object
+                }
             }
-            else
+            else if (hit.collider.CompareTag("Cats"))
             {
-                SelectObject(hitObject);
-                cameraMovement.FocusMode(hitObject.transform.position);    // Focus on object
+                audioManager.PlaySFX("Meow");
             }
-        }
-        else if (hit.collider != null && hit.collider.CompareTag("Cats"))
-        {
-            audioManager.PlaySFX("Meow");
-        }
-        else if (hit.collider != null && hit.collider.CompareTag("Dogs"))
-        {
-            audioManager.PlaySFX("Bark");
+            else if (hit.collider.CompareTag("Dogs"))
+            {
+                audioManager.PlaySFX("Bark");
+            }
         }
         else
         {
             DeselectObject();
             cameraMovement.isFocusing = false;
         }
+
     }
 
     void SelectObject(GameObject selectedObject)
@@ -70,18 +74,6 @@ public class ObjectSelector : MonoBehaviour
         objects = selectedObject.GetComponent<InformativeObjectBehaviour>();
         objects.selected = true;
         audioManager.PlaySFX("Highlight");
-    }
-
-    bool IsSelectable(GameObject obj)
-    {
-        foreach (var tag in selectableTag)
-        {
-            if (obj.CompareTag(tag))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     void DeselectObject()

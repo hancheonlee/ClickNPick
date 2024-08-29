@@ -1,3 +1,4 @@
+using DialogueEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,10 +33,8 @@ public class ObjectSelector : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
         if (hit.collider != null)
         {
-            Debug.Log("Click");
             if (hit.collider.CompareTag("InteractableObject") || hit.collider.CompareTag("InteractableCharacter"))
             {
-                Debug.Log("Click2");
                 GameObject hitObject = hit.collider.gameObject;
                 if (objects != null && objects.gameObject == hitObject)
                 {

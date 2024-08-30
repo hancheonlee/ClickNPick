@@ -12,6 +12,8 @@ TagManager:
   - Crowds
   - InteractableObject
   - InteractableCharacter
+  - Button
+  - Lamp
   layers:
   - Default
   - TransparentFX

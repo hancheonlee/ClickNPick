@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1746420836799471334}
   m_Layer: 0
   m_Name: Shop2
-  m_TagString: InformativeObject
+  m_TagString: InteractableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

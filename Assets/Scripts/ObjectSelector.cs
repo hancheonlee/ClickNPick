@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class ObjectSelector : MonoBehaviour
 {
-    public string[] selectableTag;
-
     private InformativeObjectBehaviour objects;
 
     private AudioManager audioManager;
 
     private CameraMovement cameraMovement;
 
-    public NPCConversation male01Conversation;
+    public NPCConversation philConversation;
+    public NPCConversation lucyConversation;
+    public NPCConversation jakeConversation;
+
+    public GameObject wire;
+
+    public Lamppost lamppost;
 
     private void Start()
     {
@@ -56,6 +60,20 @@ public class ObjectSelector : MonoBehaviour
             {
                 audioManager.PlaySFX("Bark");
             }
+            else if (hit.collider.CompareTag("Lamp"))
+            {
+                if (objects != null)
+                {
+                    objects.selected = false;
+                }
+
+                objects = wire.GetComponent<InformativeObjectBehaviour>();
+                objects.selected = true;
+            }
+            else if (hit.collider.CompareTag("Button"))
+            {
+                lamppost.currentState = Lamppost.lampState.Opened;
+            }
         }
         else
         {
@@ -91,7 +109,19 @@ public class ObjectSelector : MonoBehaviour
         if (objects.selected)
         {
             audioManager.PlaySFX("Select");
-            ConversationManager.Instance.StartConversation(male01Conversation);
+
+            if (objects.gameObject.name == "Phil")
+            {
+                ConversationManager.Instance.StartConversation(philConversation);
+            }
+            else if (objects.gameObject.name == "Jake")
+            {
+                ConversationManager.Instance.StartConversation(jakeConversation);
+            }
+            else if (objects.gameObject.name == "Lucy")
+            {
+                ConversationManager.Instance.StartConversation(lucyConversation);
+            }
         }
     }
 }

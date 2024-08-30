@@ -13,6 +13,8 @@ public class ObjectSelector : MonoBehaviour
 
     private CameraMovement cameraMovement;
 
+    public NPCConversation male01Conversation;
+
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -89,6 +91,7 @@ public class ObjectSelector : MonoBehaviour
         if (objects.selected)
         {
             audioManager.PlaySFX("Select");
+            ConversationManager.Instance.StartConversation(male01Conversation);
         }
     }
 }

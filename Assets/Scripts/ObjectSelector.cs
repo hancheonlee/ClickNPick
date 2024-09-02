@@ -18,6 +18,7 @@ public class ObjectSelector : MonoBehaviour
     public GameObject wire;
 
     public Lamppost lamppost;
+    public Animator buttonAnim;
 
     private void Start()
     {
@@ -73,6 +74,7 @@ public class ObjectSelector : MonoBehaviour
             else if (hit.collider.CompareTag("Button"))
             {
                 lamppost.currentState = Lamppost.lampState.Opened;
+                buttonAnim.SetTrigger("ButtonPress");
             }
         }
         else

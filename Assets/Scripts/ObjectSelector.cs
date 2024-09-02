@@ -18,7 +18,8 @@ public class ObjectSelector : MonoBehaviour
     public GameObject wire;
 
     public Lamppost lamppost;
-    public Animator buttonAnim;
+    public Animator electricBox;
+    public GameObject electricBoxCol;
 
     private void Start()
     {
@@ -71,10 +72,27 @@ public class ObjectSelector : MonoBehaviour
                 objects = wire.GetComponent<InformativeObjectBehaviour>();
                 objects.selected = true;
             }
-            else if (hit.collider.CompareTag("Button"))
+            else if (hit.collider.CompareTag("ElectricBox"))
             {
-                lamppost.currentState = Lamppost.lampState.Opened;
-                buttonAnim.SetTrigger("ButtonPress");
+
+                if (electricBox.GetBool("Open")) //Press button
+                {
+                    lamppost.currentState = Lamppost.lampState.Opened;
+                    electricBox.SetTrigger("Pressed");
+                    electricBoxCol.SetActive(true);
+                }
+                else //Open box
+                {
+                    electricBox.SetBool("Open", true);
+                    electricBox.SetTrigger("Opened");
+                    electricBoxCol.SetActive(true);
+                }
+            }
+            else if (hit.collider.CompareTag("ElectricBoxDoor"))
+            {
+                electricBox.SetTrigger("Closed");
+                electricBox.SetBool("Open", false);
+                electricBoxCol.SetActive(false);
             }
         }
         else

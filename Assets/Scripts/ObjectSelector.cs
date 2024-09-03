@@ -2,14 +2,16 @@ using DialogueEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class ObjectSelector : MonoBehaviour
 {
     private InformativeObjectBehaviour objects;
 
     private AudioManager audioManager;
-
+    private CursorManager cursorManager;
     private CameraMovement cameraMovement;
+    private ZoomControl zoomControl;
 
     public NPCConversation philConversation;
     public NPCConversation lucyConversation;
@@ -21,17 +23,36 @@ public class ObjectSelector : MonoBehaviour
     public Animator electricBox;
     public GameObject electricBoxCol;
 
+    public GameObject dialogueUI;
+    public bool inDialogue = false;
+
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
         cameraMovement = FindAnyObjectByType<CameraMovement>();
+        cursorManager = FindAnyObjectByType<CursorManager>();
+        zoomControl = FindAnyObjectByType<ZoomControl>();
+
     }
     private void Update()
     {
         // Mouse Input
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !inDialogue)
         {
             HandleInput(Input.mousePosition);
+        }
+
+        if (dialogueUI.activeInHierarchy)
+        {
+            inDialogue = true;
+            cameraMovement.enabled = false;
+            zoomControl.enabled = false;
+        }
+        else
+        {
+            inDialogue = false;
+            cameraMovement.enabled = true;
+            zoomControl.enabled = true;
         }
     }
 
@@ -71,21 +92,29 @@ public class ObjectSelector : MonoBehaviour
 
                 objects = wire.GetComponent<InformativeObjectBehaviour>();
                 objects.selected = true;
+                audioManager.PlaySFX("Highlight");
             }
             else if (hit.collider.CompareTag("ElectricBox"))
             {
 
                 if (electricBox.GetBool("Open")) //Press button
                 {
+                    if (lamppost.currentState != Lamppost.lampState.Opened)
+                    {
+                        audioManager.PlaySFX("Electric");
+                    }
                     lamppost.currentState = Lamppost.lampState.Opened;
                     electricBox.SetTrigger("Pressed");
                     electricBoxCol.SetActive(true);
+                    audioManager.PlaySFX("Button");
+
                 }
                 else //Open box
                 {
                     electricBox.SetBool("Open", true);
                     electricBox.SetTrigger("Opened");
                     electricBoxCol.SetActive(true);
+                    audioManager.PlaySFX("DoorOpen");
                 }
             }
             else if (hit.collider.CompareTag("ElectricBoxDoor"))
@@ -93,6 +122,7 @@ public class ObjectSelector : MonoBehaviour
                 electricBox.SetTrigger("Closed");
                 electricBox.SetBool("Open", false);
                 electricBoxCol.SetActive(false);
+                audioManager.PlaySFX("DoorClose");
             }
         }
         else
@@ -133,14 +163,17 @@ public class ObjectSelector : MonoBehaviour
             if (objects.gameObject.name == "Phil")
             {
                 ConversationManager.Instance.StartConversation(philConversation);
+                DeselectObject();
             }
             else if (objects.gameObject.name == "Jake")
             {
                 ConversationManager.Instance.StartConversation(jakeConversation);
+                DeselectObject();
             }
             else if (objects.gameObject.name == "Lucy")
             {
                 ConversationManager.Instance.StartConversation(lucyConversation);
+                DeselectObject();
             }
         }
     }

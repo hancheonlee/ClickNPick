@@ -40,7 +40,7 @@ public class CursorManager : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (hit.collider.CompareTag("InteractableObject"))
+            if (hit.collider.CompareTag("InteractableObject") || hit.collider.CompareTag("ElectricBox") || hit.collider.CompareTag("ElectricBoxDoor") || hit.collider.CompareTag("Lamp"))
             {
                 currentState = cursorState.Object;
             }
@@ -73,12 +73,6 @@ public class CursorManager : MonoBehaviour
         {
             clickTime = 0;
         }
-
-
-
-
-
-
     }
 
     void StateControl()

@@ -26,13 +26,15 @@ public class ObjectSelector : MonoBehaviour
     public GameObject dialogueUI;
     public bool inDialogue = false;
 
+    public LEDTVMechanics LEDTVMechanics;
+
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
         cameraMovement = FindAnyObjectByType<CameraMovement>();
         cursorManager = FindAnyObjectByType<CursorManager>();
         zoomControl = FindAnyObjectByType<ZoomControl>();
-
+        LEDTVMechanics = FindAnyObjectByType<LEDTVMechanics>();
     }
     private void Update()
     {
@@ -123,6 +125,19 @@ public class ObjectSelector : MonoBehaviour
                 electricBox.SetBool("Open", false);
                 electricBoxCol.SetActive(false);
                 audioManager.PlaySFX("DoorClose");
+            }
+            else if (hit.collider.CompareTag("LEDTV"))
+            {
+                if (LEDTVMechanics.currentState == LEDTVMechanics.TVState.Broken)
+                {
+                    audioManager.PlaySFX("Electric");
+                }
+            }
+            else if (hit.collider.CompareTag("Key"))
+            {
+                LEDTVMechanics.keyCount++;
+                hit.collider.enabled = false;
+                audioManager.PlaySFX("Button");
             }
         }
         else

@@ -16,6 +16,8 @@ TagManager:
   - Lamp
   - ElectricBox
   - ElectricBoxDoor
+  - LEDTV
+  - Key
   layers:
   - Default
   - TransparentFX

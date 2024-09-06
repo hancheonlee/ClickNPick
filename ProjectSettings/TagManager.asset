@@ -18,6 +18,8 @@ TagManager:
   - ElectricBoxDoor
   - LEDTV
   - Key
+  - FishCat
+  - WaterPuddle
   layers:
   - Default
   - TransparentFX

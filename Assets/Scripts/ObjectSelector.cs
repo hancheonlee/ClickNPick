@@ -2,7 +2,6 @@ using DialogueEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 
 public class ObjectSelector : MonoBehaviour
 {
@@ -27,6 +26,11 @@ public class ObjectSelector : MonoBehaviour
     public bool inDialogue = false;
 
     public LEDTVMechanics LEDTVMechanics;
+
+    public Animator bone;
+    public Animator dogMood;
+    public GameObject mood;
+    public bool boneDropped;
 
     private void Start()
     {
@@ -139,6 +143,23 @@ public class ObjectSelector : MonoBehaviour
                 hit.collider.enabled = false;
                 audioManager.PlaySFX("Button");
             }
+            else if (hit.collider.CompareTag("Bone"))
+            {
+                bone.SetTrigger("Fall");
+                hit.collider.enabled = false;
+                boneDropped = true;
+                
+            }
+            else if (hit.collider.CompareTag("SpecialDog"))
+            {
+                audioManager.PlaySFX("Bark");
+                StartCoroutine(ShowMoodForTwoSeconds());
+                if (boneDropped)
+                {
+                    dogMood.SetTrigger("Happy");
+
+                }
+            }
         }
         else
         {
@@ -191,5 +212,12 @@ public class ObjectSelector : MonoBehaviour
                 DeselectObject();
             }
         }
+    }
+
+    IEnumerator ShowMoodForTwoSeconds()
+    {
+        mood.SetActive(true);  // Show mood
+        yield return new WaitForSeconds(2); // Wait for 2 seconds
+        mood.SetActive(false); // Hide mood
     }
 }

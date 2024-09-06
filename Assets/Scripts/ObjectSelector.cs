@@ -29,8 +29,12 @@ public class ObjectSelector : MonoBehaviour
 
     public Animator bone;
     public Animator dogMood;
+    public Animator salmon;
+    public Animator catMood;
     public GameObject mood;
+    public GameObject moodCat;
     public bool boneDropped;
+    public bool salmonJumped;
 
     private void Start()
     {
@@ -160,6 +164,23 @@ public class ObjectSelector : MonoBehaviour
 
                 }
             }
+            else if (hit.collider.CompareTag("WaterPuddle"))
+            {
+                salmon.SetTrigger("JumpOutWater");
+                hit.collider.enabled = false;
+                salmonJumped = true;
+
+            }
+            else if (hit.collider.CompareTag("FishCat"))
+            {
+                audioManager.PlaySFX("Meow");
+                StartCoroutine(ShowMoodForTwoSeconds());
+                if (salmonJumped)
+                {
+                    catMood.SetTrigger("Happy");
+
+                }
+            }
         }
         else
         {
@@ -217,7 +238,9 @@ public class ObjectSelector : MonoBehaviour
     IEnumerator ShowMoodForTwoSeconds()
     {
         mood.SetActive(true);  // Show mood
+        moodCat.SetActive(true); // Show Cat's Mood
         yield return new WaitForSeconds(2); // Wait for 2 seconds
         mood.SetActive(false); // Hide mood
+        moodCat.SetActive(false); // Hide Cat's Mood
     }
 }

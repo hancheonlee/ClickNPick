@@ -20,6 +20,9 @@ TagManager:
   - Key
   - FishCat
   - WaterPuddle
+  - SpecialDog
+  - Bone
+  - Salmon
   layers:
   - Default
   - TransparentFX

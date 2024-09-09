@@ -36,6 +36,8 @@ public class ObjectSelector : MonoBehaviour
     public bool boneDropped;
     public bool salmonJumped;
 
+    public ShopUI shop;
+
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -43,6 +45,7 @@ public class ObjectSelector : MonoBehaviour
         cursorManager = FindAnyObjectByType<CursorManager>();
         zoomControl = FindAnyObjectByType<ZoomControl>();
         LEDTVMechanics = FindAnyObjectByType<LEDTVMechanics>();
+        shop = FindAnyObjectByType<ShopUI>();
     }
     private void Update()
     {
@@ -186,6 +189,7 @@ public class ObjectSelector : MonoBehaviour
         {
             DeselectObject();
             cameraMovement.isFocusing = false;
+            shop.HideShopInfo();
         }
 
     }
@@ -230,6 +234,11 @@ public class ObjectSelector : MonoBehaviour
             else if (objects.gameObject.name == "Lucy")
             {
                 ConversationManager.Instance.StartConversation(lucyConversation);
+                DeselectObject();
+            }
+            else if (objects.gameObject.name == "Shop")
+            {
+                shop.ShopAnimation();
                 DeselectObject();
             }
         }

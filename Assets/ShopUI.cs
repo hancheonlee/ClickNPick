@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ShopUI : MonoBehaviour
 {
-    public Shop[] shops;
     public Animator anim;
     public TextMeshProUGUI shopTitleText;
     public TextMeshProUGUI shopInfoText;
@@ -44,12 +43,9 @@ public class ShopUI : MonoBehaviour
         }
     }
 
-    public void UpdateShopUI(int shopIndex)
+    public void UpdateShopUI(string title, string info)
     {
-        if (shopIndex >= 0 && shopIndex < shops.Length)
-        {
-            shopTitleText.text = shops[shopIndex].shopTitle;  // Update title text
-            shopInfoText.text = shops[shopIndex].shopInfo;    // Update info text
-        }
+        shopTitleText.text = title;
+        shopInfoText.text = info;
     }
 }

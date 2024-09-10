@@ -2,14 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop
+public class Shop : MonoBehaviour
 {
     public string shopTitle;
     public string shopInfo;
-
-    public Shop(string title, string info)
-    {
-        shopTitle = title;
-        shopInfo = info;
-    }
 }

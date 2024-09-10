@@ -23,6 +23,7 @@ TagManager:
   - SpecialDog
   - Bone
   - Salmon
+  - Shop
   layers:
   - Default
   - TransparentFX

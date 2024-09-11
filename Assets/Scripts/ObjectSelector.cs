@@ -41,6 +41,7 @@ public class ObjectSelector : MonoBehaviour
 
     private Bench bench;
     private Leaves leaves;
+    
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -51,6 +52,7 @@ public class ObjectSelector : MonoBehaviour
         shop = FindAnyObjectByType<ShopUI>();
         bench = FindAnyObjectByType<Bench>();
         leaves = FindAnyObjectByType<Leaves>();
+        
     }
 
     private void Update()

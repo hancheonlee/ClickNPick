@@ -50,7 +50,6 @@ public class ObjectSelector : MonoBehaviour
         LEDTVMechanics = FindAnyObjectByType<LEDTVMechanics>();
         shop = FindAnyObjectByType<ShopUI>();
         bench = FindAnyObjectByType<Bench>();
-        leaves = FindAnyObjectByType<Leaves>();
     }
 
     private void Update()
@@ -125,7 +124,7 @@ public class ObjectSelector : MonoBehaviour
                     HandleBenchInteraction();
                     break;
                 case "Leaves":
-                    HandleLeavesInteraction();
+                    HandleLeavesInteraction(hit.collider);
                     break;
                 default:
                     DeselectObject();
@@ -273,8 +272,9 @@ public class ObjectSelector : MonoBehaviour
         bench.CleanBench();
     }
 
-    void HandleLeavesInteraction()
+    void HandleLeavesInteraction(Collider2D col)
     {
+        leaves = col.gameObject.GetComponent<Leaves>();
         leaves.StartFadeOut();
         audioManager.PlaySFX("Sweep");
     }

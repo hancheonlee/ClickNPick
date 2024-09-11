@@ -121,7 +121,7 @@ public class ObjectSelector : MonoBehaviour
                     HandleFishCatInteraction();
                     break;
                 case "Bench":
-                    HandleBenchInteraction();
+                    HandleBenchInteraction(hit.collider);
                     break;
                 case "Leaves":
                     HandleLeavesInteraction(hit.collider);
@@ -266,8 +266,9 @@ public class ObjectSelector : MonoBehaviour
         shop.ShopAnimation();
     }
 
-    void HandleBenchInteraction()
+    void HandleBenchInteraction(Collider2D col)
     {
+        bench = col.gameObject.GetComponent<Bench>();
         audioManager.PlaySFX("Sweep");
         bench.CleanBench();
     }

@@ -39,6 +39,8 @@ public class ObjectSelector : MonoBehaviour
     public ShopUI shop;
     private Shop shops;
 
+    private Bench bench;
+    private Leaves leaves;
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -47,6 +49,8 @@ public class ObjectSelector : MonoBehaviour
         zoomControl = FindAnyObjectByType<ZoomControl>();
         LEDTVMechanics = FindAnyObjectByType<LEDTVMechanics>();
         shop = FindAnyObjectByType<ShopUI>();
+        bench = FindAnyObjectByType<Bench>();
+        leaves = FindAnyObjectByType<Leaves>();
     }
 
     private void Update()
@@ -116,6 +120,12 @@ public class ObjectSelector : MonoBehaviour
                     break;
                 case "FishCat":
                     HandleFishCatInteraction();
+                    break;
+                case "Bench":
+                    HandleBenchInteraction();
+                    break;
+                case "Leaves":
+                    HandleLeavesInteraction();
                     break;
                 default:
                     DeselectObject();
@@ -255,6 +265,18 @@ public class ObjectSelector : MonoBehaviour
         shops = shopGameObject.GetComponent<Shop>();
         shop.UpdateShopUI(shops.shopTitle, shops.shopInfo);
         shop.ShopAnimation();
+    }
+
+    void HandleBenchInteraction()
+    {
+        audioManager.PlaySFX("Sweep");
+        bench.CleanBench();
+    }
+
+    void HandleLeavesInteraction()
+    {
+        leaves.StartFadeOut();
+        audioManager.PlaySFX("Sweep");
     }
 
     #endregion

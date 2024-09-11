@@ -40,7 +40,10 @@ public class CursorManager : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (hit.collider.CompareTag("InteractableObject") || hit.collider.CompareTag("ElectricBox") || hit.collider.CompareTag("ElectricBoxDoor") || hit.collider.CompareTag("Lamp") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("LEDTV"))
+            if (hit.collider.CompareTag("InteractableObject") || hit.collider.CompareTag("ElectricBox")
+                || hit.collider.CompareTag("ElectricBoxDoor") || hit.collider.CompareTag("Lamp")
+                || hit.collider.CompareTag("Key") || hit.collider.CompareTag("LEDTV") || hit.collider.CompareTag("Leaves")
+                || hit.collider.CompareTag("Bench") || hit.collider.CompareTag("Bone") || hit.collider.CompareTag("WaterPuddle"))
             {
                 currentState = cursorState.Object;
             }

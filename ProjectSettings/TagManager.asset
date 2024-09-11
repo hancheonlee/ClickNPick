@@ -24,6 +24,7 @@ TagManager:
   - Bone
   - Salmon
   - Shop
+  - Bench
   layers:
   - Default
   - TransparentFX

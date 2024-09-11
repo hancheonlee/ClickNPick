@@ -25,6 +25,7 @@ TagManager:
   - Salmon
   - Shop
   - Bench
+  - Leaves
   layers:
   - Default
   - TransparentFX

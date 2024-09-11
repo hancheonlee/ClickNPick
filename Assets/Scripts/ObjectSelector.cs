@@ -49,7 +49,6 @@ public class ObjectSelector : MonoBehaviour
         zoomControl = FindAnyObjectByType<ZoomControl>();
         LEDTVMechanics = FindAnyObjectByType<LEDTVMechanics>();
         shop = FindAnyObjectByType<ShopUI>();
-        bench = FindAnyObjectByType<Bench>();
     }
 
     private void Update()

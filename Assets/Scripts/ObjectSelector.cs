@@ -41,6 +41,7 @@ public class ObjectSelector : MonoBehaviour
 
     private Bench bench;
     private Leaves leaves;
+    private Sprinkler sprinkler;
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -124,6 +125,9 @@ public class ObjectSelector : MonoBehaviour
                     break;
                 case "Leaves":
                     HandleLeavesInteraction(hit.collider);
+                    break;
+                case "Sprinkler":
+                    HandleSprinklerInteraction(hit.collider);
                     break;
                 default:
                     DeselectObject();
@@ -277,6 +281,13 @@ public class ObjectSelector : MonoBehaviour
         leaves = col.gameObject.GetComponent<Leaves>();
         leaves.StartFadeOut();
         audioManager.PlaySFX("Sweep");
+    }
+
+    void HandleSprinklerInteraction(Collider2D col)
+    {
+        sprinkler = col.gameObject.GetComponent<Sprinkler>();
+        sprinkler.GrowSprinkler();
+        audioManager.PlaySFX("Water");
     }
 
     #endregion

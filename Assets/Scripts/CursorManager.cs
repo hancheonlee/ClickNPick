@@ -8,6 +8,7 @@ public class CursorManager : MonoBehaviour
     [SerializeField] private Texture2D cursorGrab;
     [SerializeField] private Texture2D cursorObject;
     [SerializeField] private Texture2D cursorCharacter;
+    [SerializeField] private Texture2D cursorWater;
 
     public float clickHoldTime = 0.2f;
     private float clickTime = 0f;
@@ -20,7 +21,7 @@ public class CursorManager : MonoBehaviour
 
     public enum cursorState
     {
-        Idle, Grabbing, Object, Character
+        Idle, Grabbing, Object, Character, Water
     }
 
     void Start()
@@ -50,6 +51,10 @@ public class CursorManager : MonoBehaviour
             else if (hit.collider.CompareTag("InteractableCharacter"))
             {
                 currentState = cursorState.Character;
+            }
+            else if (hit.collider.CompareTag("Sprinkler"))
+            {
+                currentState = cursorState.Water;
             }
         }
         else
@@ -91,6 +96,10 @@ public class CursorManager : MonoBehaviour
         else if (currentState == cursorState.Character)
         {
             Cursor.SetCursor(cursorCharacter, cursorHotspot, CursorMode.Auto);
+        }
+        else if (currentState == cursorState.Water)
+        {
+            Cursor.SetCursor(cursorWater, cursorHotspot, CursorMode.Auto);
         }
         else
         {

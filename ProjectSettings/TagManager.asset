@@ -27,6 +27,7 @@ TagManager:
   - Bench
   - Leaves
   - FloatingTrash
+  - Sprinkler
   layers:
   - Default
   - TransparentFX

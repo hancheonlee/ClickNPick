@@ -23,6 +23,7 @@ public class ObjectSelector : MonoBehaviour
     public GameObject electricBoxCol;
 
     public GameObject dialogueUI;
+    public GameObject settingUI;
     public bool inDialogue = false;
 
     public LEDTVMechanics LEDTVMechanics;
@@ -60,7 +61,7 @@ public class ObjectSelector : MonoBehaviour
             HandleInput(Input.mousePosition);
         }
 
-        if (dialogueUI.activeInHierarchy)
+        if (dialogueUI.activeInHierarchy || settingUI.activeInHierarchy)
         {
             inDialogue = true;
             cameraMovement.enabled = false;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -82,7 +83,7 @@ public class UIController : MonoBehaviour
         zoomControl.enabled = false;
     }
 
-    public void Back()
+    public void Resume()
     {
         optionsUI.SetActive(false);
         settingsButton.SetActive(true);
@@ -94,6 +95,19 @@ public class UIController : MonoBehaviour
         cameraMovement.enabled = true;
         zoomControl.enabled = true;
     }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("prototype_01");
+    }
+
+    public void MainMenu()
+    {
+        
+        SceneManager.LoadScene("Level 0");
+    }
+    
 
     private void OnMusicSliderValueChanged()
     {

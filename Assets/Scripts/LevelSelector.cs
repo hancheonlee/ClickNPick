@@ -16,6 +16,7 @@ public class LevelSelector : MonoBehaviour
 
     public void OpenScene()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("prototype_01");
     }
 }

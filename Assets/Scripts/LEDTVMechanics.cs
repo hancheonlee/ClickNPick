@@ -7,6 +7,7 @@ public class LEDTVMechanics : MonoBehaviour
     public int keyCount = 0;
     public TVState currentState;
     private SpriteRenderer currentSprite;
+    private ProgressBarSystem progressBarSystem;
     [SerializeField] private Sprite level1;
     [SerializeField] private Sprite level2;
     [SerializeField] private Sprite level3;
@@ -20,6 +21,7 @@ public class LEDTVMechanics : MonoBehaviour
     {
         currentState = TVState.Broken;
         currentSprite = GetComponent<SpriteRenderer>();
+        progressBarSystem = FindAnyObjectByType<ProgressBarSystem>();
     }
 
     private void Update()

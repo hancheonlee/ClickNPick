@@ -43,6 +43,8 @@ public class ObjectSelector : MonoBehaviour
     private Bench bench;
     private Leaves leaves;
     private Sprinkler sprinkler;
+
+    private ProgressBarSystem progressBarSystem;
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -51,6 +53,7 @@ public class ObjectSelector : MonoBehaviour
         zoomControl = FindAnyObjectByType<ZoomControl>();
         LEDTVMechanics = FindAnyObjectByType<LEDTVMechanics>();
         shop = FindAnyObjectByType<ShopUI>();
+        progressBarSystem = FindAnyObjectByType<ProgressBarSystem>();
     }
 
     private void Update()
@@ -189,6 +192,7 @@ public class ObjectSelector : MonoBehaviour
             if (lamppost.currentState != Lamppost.lampState.Opened)
             {
                 audioManager.PlaySFX("Electric");
+                progressBarSystem.OnClick();
             }
             lamppost.currentState = Lamppost.lampState.Opened;
             electricBox.SetTrigger("Pressed");
@@ -225,6 +229,7 @@ public class ObjectSelector : MonoBehaviour
         LEDTVMechanics.keyCount++;
         keyCollider.enabled = false;
         audioManager.PlaySFX("Button");
+        progressBarSystem.OnClick();
     }
 
     void HandleBoneInteraction(Collider2D boneCollider)
@@ -232,6 +237,7 @@ public class ObjectSelector : MonoBehaviour
         bone.SetTrigger("Fall");
         boneCollider.enabled = false;
         boneDropped = true;
+        progressBarSystem.OnClick();
     }
 
     void HandleSpecialDogInteraction()
@@ -250,6 +256,7 @@ public class ObjectSelector : MonoBehaviour
         salmon.SetTrigger("JumpOutWater");
         puddleCollider.enabled = false;
         salmonJumped = true;
+        progressBarSystem.OnClick();
     }
 
     void HandleFishCatInteraction()
@@ -275,6 +282,7 @@ public class ObjectSelector : MonoBehaviour
         bench = col.gameObject.GetComponent<Bench>();
         audioManager.PlaySFX("Sweep");
         bench.CleanBench();
+        progressBarSystem.OnClick();
     }
 
     void HandleLeavesInteraction(Collider2D col)
@@ -282,6 +290,7 @@ public class ObjectSelector : MonoBehaviour
         leaves = col.gameObject.GetComponent<Leaves>();
         leaves.StartFadeOut();
         audioManager.PlaySFX("Sweep");
+        progressBarSystem.OnClick();
     }
 
     void HandleSprinklerInteraction(Collider2D col)
@@ -289,6 +298,7 @@ public class ObjectSelector : MonoBehaviour
         sprinkler = col.gameObject.GetComponent<Sprinkler>();
         sprinkler.GrowSprinkler();
         audioManager.PlaySFX("Water");
+        progressBarSystem.OnClick();
     }
 
     #endregion

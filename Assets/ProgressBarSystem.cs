@@ -11,21 +11,30 @@ public class ProgressBarSystem : MonoBehaviour
     public Image star2;
     public Image star3;
 
-    public int star1Threshold;  // Number of clicks required to enable star1
-    public int star2Threshold;  // Number of clicks required to enable star2
-    public int star3Threshold;  // Number of clicks required to enable star3
+    public Animator star1anim;
+    public Animator star2anim;
+    public Animator star3anim;
 
-    public int maxClicks = 5;  
+    public int star1Threshold;
+    public int star2Threshold;
+    public int star3Threshold;
+
+    public int maxClicks = 5;
     public int currentClicks = 0;
 
-    [SerializeField] private Color grayColor = new Color(0.5f, 0.5f, 0.5f, 1f);  // Gray color
-    private Color originalColor = Color.white;  // Original color of the stars
+    [SerializeField] private Color grayColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+    private Color originalColor = Color.white;
+
+    private bool star1Earned = false;
+    private bool star2Earned = false;
+    private bool star3Earned = false;
 
     private void Start()
     {
         UpdateProgressBar();
         UpdateStars();
     }
+
     public void OnClick()
     {
         if (currentClicks < maxClicks)
@@ -43,34 +52,61 @@ public class ProgressBarSystem : MonoBehaviour
 
     private void UpdateStars()
     {
-        // Update star1
-        if (currentClicks >= star1Threshold)
+        if (currentClicks >= star1Threshold && !star1Earned)
         {
             star1.color = originalColor;
+            star1anim.enabled = true;
+            Star1Action();
+            star1Earned = true;
         }
-        else
+        else if (currentClicks < star1Threshold)
         {
             star1.color = grayColor;
+            star1Earned = false;
         }
 
-        // Update star2
-        if (currentClicks >= star2Threshold)
+        if (currentClicks >= star2Threshold && !star2Earned)
         {
             star2.color = originalColor;
+            star2anim.enabled = true;
+            Star2Action();
+            star2Earned = true;
         }
-        else
+        else if (currentClicks < star2Threshold)
         {
             star2.color = grayColor;
+            star2Earned = false;
         }
 
-        // Update star3
-        if (currentClicks >= star3Threshold)
+        if (currentClicks >= star3Threshold && !star3Earned)
         {
             star3.color = originalColor;
+            star3anim.enabled = true;
+            Star3Action();
+            star3Earned = true;
         }
-        else
+        else if (currentClicks < star3Threshold)
         {
             star3.color = grayColor;
+            star3Earned = false;
         }
+    }
+
+    private void Star1Action()
+    {
+        Debug.Log("Star 1 earned! Perform action here.");
+        AudioManager.Instance.PlaySFX("Star");
+    }
+
+    private void Star2Action()
+    {
+        Debug.Log("Star 2 earned! Perform action here.");
+        AudioManager.Instance.PlaySFX("Star");
+    }
+
+    private void Star3Action()
+    {
+        Debug.Log("Star 3 earned! Perform action here.");
+        AudioManager.Instance.PlaySFX("Win");
     }
 }

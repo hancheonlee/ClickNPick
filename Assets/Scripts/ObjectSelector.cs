@@ -45,6 +45,10 @@ public class ObjectSelector : MonoBehaviour
     private Sprinkler sprinkler;
 
     private ProgressBarSystem progressBarSystem;
+
+    public GameObject clickVFX;
+    public float vfxTime = 0.5f;
+
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -85,6 +89,7 @@ public class ObjectSelector : MonoBehaviour
 
         if (hit.collider != null)
         {
+            SpawnVFX();
             switch (hit.collider.tag)
             {
                 case "InteractableObject":
@@ -359,5 +364,13 @@ public class ObjectSelector : MonoBehaviour
         yield return new WaitForSeconds(2); // Wait for 2 seconds
         mood.SetActive(false); // Hide mood
         moodCat.SetActive(false); // Hide Cat's Mood
+    }
+
+    void SpawnVFX()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0; // Set z to 0 since it's a 2D game
+        GameObject vfx = Instantiate(clickVFX, mousePosition, Quaternion.identity);
+        Destroy(vfx, vfxTime); // Destroy the VFX after a specified time
     }
 }

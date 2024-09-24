@@ -30,18 +30,14 @@ public class Leaves : MonoBehaviour
     {
         float timer = 0f;
         Color currentColor = spriteRenderer.color;
-
-        // Gradually decrease alpha value over time
         while (timer < fadeDuration)
         {
             timer += Time.deltaTime;
             float alphaValue = Mathf.Lerp(originalColor.a, 0, timer / fadeDuration);
             spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, alphaValue);
 
-            yield return null; // Wait for the next frame
+            yield return null;
         }
-
-        // Ensure the object is fully transparent after the loop
         spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0);
     }
 }

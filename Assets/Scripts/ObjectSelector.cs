@@ -129,15 +129,6 @@ public class ObjectSelector : MonoBehaviour
                 case "FishCat":
                     HandleFishCatInteraction();
                     break;
-                case "Bench":
-                    HandleBenchInteraction(hit.collider);
-                    break;
-                case "Leaves":
-                    HandleLeavesInteraction(hit.collider);
-                    break;
-                case "Sprinkler":
-                    HandleSprinklerInteraction(hit.collider);
-                    break;
                 default:
                     DeselectObject();
                     cameraMovement.isFocusing = false;
@@ -280,30 +271,6 @@ public class ObjectSelector : MonoBehaviour
         shops = shopGameObject.GetComponent<Shop>();
         shop.UpdateShopUI(shops.shopTitle, shops.shopInfo);
         shop.ShopAnimation();
-    }
-
-    void HandleBenchInteraction(Collider2D col)
-    {
-        bench = col.gameObject.GetComponent<Bench>();
-        audioManager.PlaySFX("Sweep");
-        bench.CleanBench();
-        progressBarSystem.OnClick();
-    }
-
-    void HandleLeavesInteraction(Collider2D col)
-    {
-        leaves = col.gameObject.GetComponent<Leaves>();
-        leaves.StartFadeOut();
-        audioManager.PlaySFX("Sweep");
-        progressBarSystem.OnClick();
-    }
-
-    void HandleSprinklerInteraction(Collider2D col)
-    {
-        sprinkler = col.gameObject.GetComponent<Sprinkler>();
-        sprinkler.GrowSprinkler();
-        audioManager.PlaySFX("Water");
-        progressBarSystem.OnClick();
     }
 
     #endregion

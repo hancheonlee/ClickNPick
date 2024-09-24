@@ -28,6 +28,7 @@ TagManager:
   - Leaves
   - FloatingTrash
   - Sprinkler
+  - TrashCan
   layers:
   - Default
   - TransparentFX

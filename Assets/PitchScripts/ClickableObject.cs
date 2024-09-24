@@ -4,40 +4,51 @@ using UnityEngine;
 
 public class ClickableObject : MonoBehaviour
 {
-    public AudioClip clickSound;           // Sound effect for clicks
     public GameObject specialEffect;       // Particle effect
-    public AudioClip specialEffectSound;   // Optional: Different sound for special effect
     public int maxClicks = 5;              // Max clicks before special effect or change
+    public float fadeDuration = 1.0f;      // Time needed to fade out
+
+    public Sprite bench;
+    public Sprite trashCanClean;
 
     private int clickCount = 0;            // Track how many times the object was clicked
     private Vector3 originalScale;
-    private AudioSource audioSource;
-
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+    private bool actionCompleted = false;
+    private ProgressBarSystem progressBarSystem;
     void Start()
     {
         originalScale = transform.localScale;
-        audioSource = gameObject.AddComponent<AudioSource>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        progressBarSystem = FindAnyObjectByType<ProgressBarSystem>();
     }
 
     void OnMouseDown()
     {
-        clickCount++;
-        PlayClickSound();
-        PlayVisualFeedback();
+        if (!actionCompleted)
+        {
+            clickCount++;
+            PlayClickSound();
+            PlayVisualFeedback();
 
-        if (clickCount >= maxClicks)  // If player reaches max clicks
+            if (clickCount >= maxClicks)  // If player reaches max clicks
+            {
+                TriggerSpecialEffect();
+                progressBarSystem.OnClick();
+                clickCount = 0;  // Reset click count for the next stage
+            }
+        }
+        else
         {
             TriggerSpecialEffect();
-            clickCount = 0;  // Reset click count for the next stage
         }
+
     }
 
     void PlayClickSound()
     {
-        if (clickSound != null)
-        {
-            audioSource.PlayOneShot(clickSound);
-        }
+        AudioManager.Instance.PlaySFX("Click");
     }
 
     void PlayVisualFeedback()
@@ -56,13 +67,72 @@ public class ClickableObject : MonoBehaviour
     {
         if (specialEffect != null)
         {
-            Instantiate(specialEffect, transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySFX("Special");
+            GameObject VFX = Instantiate(specialEffect, transform.position, Quaternion.identity);
+            Destroy(VFX, 2f);
+
+            actionCompleted = true;
         }
 
-        // Optionally play a special sound for reaching max clicks
-        if (specialEffectSound != null)
+        switch(gameObject.tag)
         {
-            audioSource.PlayOneShot(specialEffectSound);
+            case "Leaves":
+                FadeOut();
+                break;
+            case "Bench":
+                ChangeSprite();
+                break;
+            case "TrashCan":
+                ChangeSprite();
+                break;
+            case "Sprinkler":
+                PlayAnimation();
+                break;
         }
+    }
+
+    public void FadeOut()
+    {
+        StartCoroutine(FadeOutRoutine());
+    }
+
+    public void ChangeSprite()
+    {
+        if (gameObject.CompareTag("Bench"))
+        {
+            spriteRenderer.sprite = bench;
+        }
+        else if (gameObject.CompareTag("TrashCan"))
+        {
+            spriteRenderer.sprite = trashCanClean;
+        }
+
+    }
+
+    public void PlayAnimation()
+    {
+        Animator animator = gameObject.GetComponent<Animator>();
+        if (gameObject.CompareTag("Sprinkler"))
+        {
+            animator.SetTrigger("Grow");
+        }
+    }
+
+    private IEnumerator FadeOutRoutine()
+    {
+        BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
+        collider.enabled = false;
+        float timer = 0f;
+        Color currentColor = spriteRenderer.color;
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            float alphaValue = Mathf.Lerp(originalColor.a, 0, timer / fadeDuration);
+            spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, alphaValue);
+
+            yield return null;
+        }
+        spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0);
+        Destroy(gameObject, 2f);
     }
 }

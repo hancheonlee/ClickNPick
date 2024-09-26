@@ -12,13 +12,8 @@ public class UIController : MonoBehaviour
     public GameObject crossUI;
     public GameObject crossUI2;
 
-    public CameraMovement cameraMovement;
-    public ZoomControl zoomControl;
-
     public void Start()
     {
-        cameraMovement = FindAnyObjectByType<CameraMovement>();
-        zoomControl = FindAnyObjectByType<ZoomControl>();
 
         // Load saved values
         LoadSettings();
@@ -79,8 +74,7 @@ public class UIController : MonoBehaviour
 
         Time.timeScale = 0f;
 
-        cameraMovement.enabled = false;
-        zoomControl.enabled = false;
+        CameraSystem.free = false;
     }
 
     public void Resume()
@@ -92,8 +86,7 @@ public class UIController : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        cameraMovement.enabled = true;
-        zoomControl.enabled = true;
+        CameraSystem.free = true;
     }
 
     public void Restart()

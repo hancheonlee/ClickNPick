@@ -42,6 +42,7 @@ public class ClickableObject : MonoBehaviour
         else
         {
             TriggerSpecialEffect();
+            PlayVisualFeedback();
         }
 
     }

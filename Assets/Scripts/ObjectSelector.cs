@@ -8,9 +8,6 @@ public class ObjectSelector : MonoBehaviour
     private InformativeObjectBehaviour objects;
 
     private AudioManager audioManager;
-    private CursorManager cursorManager;
-    private CameraMovement cameraMovement;
-    private ZoomControl zoomControl;
 
     public NPCConversation philConversation;
     public NPCConversation lucyConversation;
@@ -40,10 +37,6 @@ public class ObjectSelector : MonoBehaviour
     public ShopUI shop;
     private Shop shops;
 
-    private Bench bench;
-    private Leaves leaves;
-    private Sprinkler sprinkler;
-
     private ProgressBarSystem progressBarSystem;
 
     public GameObject clickVFX;
@@ -52,9 +45,6 @@ public class ObjectSelector : MonoBehaviour
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
-        cameraMovement = FindAnyObjectByType<CameraMovement>();
-        cursorManager = FindAnyObjectByType<CursorManager>();
-        zoomControl = FindAnyObjectByType<ZoomControl>();
         LEDTVMechanics = FindAnyObjectByType<LEDTVMechanics>();
         shop = FindAnyObjectByType<ShopUI>();
         progressBarSystem = FindAnyObjectByType<ProgressBarSystem>();
@@ -71,14 +61,12 @@ public class ObjectSelector : MonoBehaviour
         if (dialogueUI.activeInHierarchy || settingUI.activeInHierarchy)
         {
             inDialogue = true;
-            cameraMovement.enabled = false;
-            zoomControl.enabled = false;
+            CameraSystem.free = false;
         }
         else
         {
             inDialogue = false;
-            cameraMovement.enabled = true;
-            zoomControl.enabled = true;
+            CameraSystem.free = true;
         }
     }
 
@@ -131,7 +119,7 @@ public class ObjectSelector : MonoBehaviour
                     break;
                 default:
                     DeselectObject();
-                    cameraMovement.isFocusing = false;
+                    CameraSystem.Instance.ZoomOut();
                     shop.HideShopInfo();
                     break;
             }
@@ -139,7 +127,7 @@ public class ObjectSelector : MonoBehaviour
         else
         {
             DeselectObject();
-            cameraMovement.isFocusing = false;
+            CameraSystem.Instance.ZoomOut();
             shop.HideShopInfo();
         }
     }
@@ -155,7 +143,7 @@ public class ObjectSelector : MonoBehaviour
         else
         {
             SelectObject(hitObject);
-            cameraMovement.FocusMode(hitObject.transform.position);    // Focus on object
+            CameraSystem.Instance.ZoomInToObject(hitObject);
         }
     }
 

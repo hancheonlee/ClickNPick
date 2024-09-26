@@ -17,8 +17,6 @@ public class CursorManager : MonoBehaviour
 
     public cursorState currentState;
 
-    public CameraMovement cameraMovement;
-
     public enum cursorState
     {
         Idle, Grabbing, Object, Character, Water
@@ -27,8 +25,6 @@ public class CursorManager : MonoBehaviour
     void Start()
     {
         Cursor.SetCursor(cursorIdle, cursorHotspot, CursorMode.Auto);
-
-        cameraMovement = FindAnyObjectByType<CameraMovement>();
     }
 
     // Update is called once per frame
@@ -44,7 +40,8 @@ public class CursorManager : MonoBehaviour
             if (hit.collider.CompareTag("InteractableObject") || hit.collider.CompareTag("ElectricBox")
                 || hit.collider.CompareTag("ElectricBoxDoor") || hit.collider.CompareTag("Lamp")
                 || hit.collider.CompareTag("Key") || hit.collider.CompareTag("LEDTV") || hit.collider.CompareTag("Leaves")
-                || hit.collider.CompareTag("Bench") || hit.collider.CompareTag("Bone") || hit.collider.CompareTag("WaterPuddle"))
+                || hit.collider.CompareTag("Bench") || hit.collider.CompareTag("Bone") || hit.collider.CompareTag("WaterPuddle")
+                || hit.collider.CompareTag("TrashCan"))
             {
                 currentState = cursorState.Object;
             }

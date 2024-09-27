@@ -117,6 +117,9 @@ public class ObjectSelector : MonoBehaviour
                 case "FishCat":
                     HandleFishCatInteraction();
                     break;
+                case "Smoke":
+                    HandleSmokeInteraction();
+                    break;
                 default:
                     DeselectObject();
                     CameraSystem.Instance.ZoomOut();
@@ -155,6 +158,11 @@ public class ObjectSelector : MonoBehaviour
     void HandleDogInteraction()
     {
         audioManager.PlaySFX("Bark");
+    }
+
+    void HandleSmokeInteraction()
+    {
+        audioManager.PlaySFX("smokepoof");
     }
 
     void HandleLampInteraction()

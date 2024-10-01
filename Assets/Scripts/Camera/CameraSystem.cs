@@ -10,6 +10,9 @@ public class CameraSystem : MonoBehaviour
     [Header("Assign Cameras")]
     public GameObject playerCam;
     public GameObject zoomCam;
+    public GameObject transitionCam0;
+    public GameObject transitionCam1;
+    public GameObject transitionCam2;
 
     [Header("Camera Settings")]
     public float dragSpeed = 1.5f;
@@ -25,18 +28,24 @@ public class CameraSystem : MonoBehaviour
     [SerializeField] private Levels currentLevel;
     public Collider2D[] colliderLevel;
 
+    [Header("Camera Transition")]
+    public float targetSize = 2f;
+    public float duration = 2f;
+
     private Vector3 dragOrigin;
     private Camera mainCamera;
     private CinemachineVirtualCamera virtualCamera;
     private CinemachineVirtualCamera zoomCamera;
+    private CinemachineVirtualCamera transitionCamera;
     private CinemachineConfiner2D confiner;
     private Collider2D confinerCollider;
     public static bool free = true;
     private float scrollInput;
+    private GameObject currentTransitionCamera;
 
     public enum Levels
     {
-        Level1, Level2, Level3
+        Level0, Level1, Level2, Level3
     }
 
     private void Awake()
@@ -58,8 +67,8 @@ public class CameraSystem : MonoBehaviour
         zoomCamera = zoomCam.GetComponent<CinemachineVirtualCamera>();
         confiner = playerCam.GetComponent<CinemachineConfiner2D>();
         StartCoroutine(HandleCameraMovement());
-        StartCoroutine(HandleCameraZoom());
-        LevelSwitcher(Levels.Level1);
+        StartCoroutine(HandleCameraZoom()); 
+        LevelSwitcher(Levels.Level0);
     }
 
     private IEnumerator HandleCameraMovement()
@@ -124,22 +133,25 @@ public class CameraSystem : MonoBehaviour
 
         switch (currentLevel)
         {
-            case Levels.Level1:
+            case Levels.Level0:
                 confinerCollider = colliderLevel[0];
                 confiner.m_BoundingShape2D = confinerCollider;
                 confiner.InvalidateCache();
+                StartCoroutine(LevelTransition());
                 break;
 
-            case Levels.Level2:
+            case Levels.Level1:
                 confinerCollider = colliderLevel[1];
                 confiner.m_BoundingShape2D = confinerCollider;
                 confiner.InvalidateCache();
+                StartCoroutine(LevelTransition());
                 break;
 
-            case Levels.Level3:
+            case Levels.Level2:
                 confinerCollider = colliderLevel[2];
                 confiner.m_BoundingShape2D = confinerCollider;
                 confiner.InvalidateCache();
+                StartCoroutine(LevelTransition());
                 break;
 
             default:
@@ -161,5 +173,41 @@ public class CameraSystem : MonoBehaviour
     {
         playerCam.SetActive(true);
         zoomCam.SetActive(false);
+    }
+
+    public IEnumerator LevelTransition()
+    {
+        if (currentLevel == Levels.Level0)
+        {
+            transitionCamera = transitionCam0.GetComponent<CinemachineVirtualCamera>();
+            currentTransitionCamera = transitionCam0;
+        }
+        else if (currentLevel == Levels.Level1)
+        {
+            transitionCamera = transitionCam1.GetComponent<CinemachineVirtualCamera>();
+            currentTransitionCamera = transitionCam1;
+        }
+        else if (currentLevel == Levels.Level2)
+        {
+            transitionCamera = transitionCam2.GetComponent<CinemachineVirtualCamera>();
+            currentTransitionCamera = transitionCam2;
+        }
+
+        playerCam.SetActive(false);
+        currentTransitionCamera.SetActive(true);
+        free = false;
+
+        float initialSize = transitionCamera.m_Lens.OrthographicSize;
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            transitionCamera.m_Lens.OrthographicSize = Mathf.Lerp(initialSize, targetSize, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        free = true;
+        playerCam.SetActive(true);
+        currentTransitionCamera.SetActive(false);
     }
 }

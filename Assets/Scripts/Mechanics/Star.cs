@@ -16,6 +16,7 @@ public class Star : MonoBehaviour
     {
         starImage = GetComponent<Image>();
         animator = GetComponent<Animator>();
+        starImage.color = grayColor;
     }
     public void UpdateStar(int currentClicks, int threshold)
     {

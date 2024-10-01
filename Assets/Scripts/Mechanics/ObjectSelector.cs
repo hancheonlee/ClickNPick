@@ -5,47 +5,50 @@ using UnityEngine;
 
 public class ObjectSelector : MonoBehaviour
 {
-    private InformativeObjectBehaviour objects;
+    [Header("Object Interactions")]
+    [SerializeField] private GameObject wire;
+    [SerializeField] private Lamppost lamppost;
+    [SerializeField] private Animator electricBox;
+    [SerializeField] private GameObject electricBoxCol;
 
-    private AudioManager audioManager;
+    [Header("Dialogue Conversations")]
+    [SerializeField] private NPCConversation philConversation;
+    [SerializeField] private NPCConversation lucyConversation;
+    [SerializeField] private NPCConversation jakeConversation;
 
-    public NPCConversation philConversation;
-    public NPCConversation lucyConversation;
-    public NPCConversation jakeConversation;
+    [Header("UI Elements")]
+    [SerializeField] private GameObject dialogueUI;
+    [SerializeField] private GameObject settingUI;
+    [SerializeField] private GameObject transitionCamera;
 
-    public GameObject wire;
-
-    public Lamppost lamppost;
-    public Animator electricBox;
-    public GameObject electricBoxCol;
-
-    public GameObject dialogueUI;
-    public GameObject settingUI;
-    public bool inDialogue = false;
-
-    public LEDTVMechanics LEDTVMechanics;
-
-    public Animator bone;
-    public Animator dogMood;
-    public Animator salmon;
-    public Animator catMood;
-    public GameObject mood;
-    public GameObject moodCat;
+    [Header("Mood and Animations")]
+    [SerializeField] private Animator bone;
+    [SerializeField] private Animator dogMood;
+    [SerializeField] private Animator salmon;
+    [SerializeField] private Animator catMood;
+    [SerializeField] private GameObject mood;
+    [SerializeField] private GameObject moodCat;
     public bool boneDropped;
     public bool salmonJumped;
 
-    public ShopUI shop;
+    [Header("Shop and Progress UI")]
+    [SerializeField] private ShopUI shop;
+    [SerializeField] private ProgressBarSystem progressBarSystem;
+
+    [Header("VFX")]
+    [SerializeField] private GameObject clickVFX;
+    [SerializeField] private float vfxTime = 0.5f;
+
     private Shop shops;
-
-    private ProgressBarSystem progressBarSystem;
-
-    public GameObject clickVFX;
-    public float vfxTime = 0.5f;
+    private LEDTVMechanics tvMechanics;
+    private InformativeObjectBehaviour objects;
+    private AudioManager audioManager;
+    private bool inDialogue = false;
 
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
-        LEDTVMechanics = FindAnyObjectByType<LEDTVMechanics>();
+        tvMechanics = FindAnyObjectByType<LEDTVMechanics>();
         shop = FindAnyObjectByType<ShopUI>();
         progressBarSystem = FindAnyObjectByType<ProgressBarSystem>();
     }
@@ -58,7 +61,7 @@ public class ObjectSelector : MonoBehaviour
             HandleInput(Input.mousePosition);
         }
 
-        if (dialogueUI.activeInHierarchy || settingUI.activeInHierarchy)
+        if (dialogueUI.activeInHierarchy || settingUI.activeInHierarchy || transitionCamera.activeInHierarchy)
         {
             inDialogue = true;
             CameraSystem.free = false;
@@ -185,6 +188,7 @@ public class ObjectSelector : MonoBehaviour
             {
                 audioManager.PlaySFX("Electric");
                 progressBarSystem.OnClick();
+                CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level1);
             }
             lamppost.currentState = Lamppost.lampState.Opened;
             electricBox.SetTrigger("Pressed");
@@ -210,7 +214,7 @@ public class ObjectSelector : MonoBehaviour
 
     void HandleLEDTVInteraction()
     {
-        if (LEDTVMechanics.currentState == LEDTVMechanics.TVState.Broken)
+        if (tvMechanics.currentState == LEDTVMechanics.TVState.Broken)
         {
             audioManager.PlaySFX("Electric");
         }
@@ -218,7 +222,7 @@ public class ObjectSelector : MonoBehaviour
 
     void HandleKeyInteraction(Collider2D keyCollider)
     {
-        LEDTVMechanics.keyCount++;
+        tvMechanics.keyCount++;
         keyCollider.enabled = false;
         audioManager.PlaySFX("Button");
         progressBarSystem.OnClick();

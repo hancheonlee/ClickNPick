@@ -12,7 +12,7 @@ public class Star : MonoBehaviour
     private Color originalColor = Color.white;
     private bool isEarned = false;
 
-    private void Start()
+    private void Awake()
     {
         starImage = GetComponent<Image>();
         animator = GetComponent<Animator>();

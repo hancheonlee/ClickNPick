@@ -34,6 +34,7 @@ public class CameraSystem : MonoBehaviour
 
     private Vector3 dragOrigin;
     private Camera mainCamera;
+    private CinemachineBrain cinemachineBrain;
     private CinemachineVirtualCamera virtualCamera;
     private CinemachineVirtualCamera zoomCamera;
     private CinemachineVirtualCamera transitionCamera;
@@ -42,6 +43,7 @@ public class CameraSystem : MonoBehaviour
     public static bool free = true;
     private float scrollInput;
     private GameObject currentTransitionCamera;
+    private LevelText levelText;
 
     public enum Levels
     {
@@ -63,9 +65,11 @@ public class CameraSystem : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+        cinemachineBrain = GetComponent<CinemachineBrain>();
         virtualCamera = playerCam.GetComponent<CinemachineVirtualCamera>();
         zoomCamera = zoomCam.GetComponent<CinemachineVirtualCamera>();
         confiner = playerCam.GetComponent<CinemachineConfiner2D>();
+        levelText = FindAnyObjectByType<LevelText>();
         StartCoroutine(HandleCameraMovement());
         StartCoroutine(HandleCameraZoom()); 
         LevelSwitcher(Levels.Level0);
@@ -166,36 +170,39 @@ public class CameraSystem : MonoBehaviour
         zoomCam.SetActive(true);
         zoomCam.transform.position = new Vector3(g.transform.position.x + zoomOffset.x, 
             g.transform.position.y + zoomOffset.y, zoomCam.transform.position.z);
-        playerCam.SetActive(false);
     }
 
     public void ZoomOut()
     {
-        playerCam.SetActive(true);
         zoomCam.SetActive(false);
     }
 
     public IEnumerator LevelTransition()
     {
+        levelText.gameObject.SetActive(true);
         if (currentLevel == Levels.Level0)
         {
             transitionCamera = transitionCam0.GetComponent<CinemachineVirtualCamera>();
             currentTransitionCamera = transitionCam0;
+            levelText.UpdateText(0);
         }
         else if (currentLevel == Levels.Level1)
         {
             transitionCamera = transitionCam1.GetComponent<CinemachineVirtualCamera>();
             currentTransitionCamera = transitionCam1;
+            levelText.UpdateText(1);
         }
         else if (currentLevel == Levels.Level2)
         {
             transitionCamera = transitionCam2.GetComponent<CinemachineVirtualCamera>();
             currentTransitionCamera = transitionCam2;
+            levelText.UpdateText(2);
         }
 
         playerCam.SetActive(false);
         currentTransitionCamera.SetActive(true);
         free = false;
+        cinemachineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
 
         float initialSize = transitionCamera.m_Lens.OrthographicSize;
         float elapsedTime = 0f;
@@ -205,9 +212,14 @@ public class CameraSystem : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        transitionCamera.m_Lens.OrthographicSize = targetSize;
+
+        yield return new WaitForSeconds(0.5f);
 
         free = true;
         playerCam.SetActive(true);
         currentTransitionCamera.SetActive(false);
+        levelText.gameObject.SetActive(false);
+        cinemachineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
     }
 }

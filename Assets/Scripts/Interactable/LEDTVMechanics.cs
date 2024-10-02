@@ -49,8 +49,6 @@ public class LEDTVMechanics : MonoBehaviour
         {
             currentState = TVState.Level4;
             currentSprite.sprite = level4;
-            video.SetActive(true);
-            CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level2);
         }
 
 

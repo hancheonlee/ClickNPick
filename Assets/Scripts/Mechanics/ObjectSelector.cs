@@ -61,7 +61,7 @@ public class ObjectSelector : MonoBehaviour
             HandleInput(Input.mousePosition);
         }
 
-        if (dialogueUI.activeInHierarchy || settingUI.activeInHierarchy || transitionCamera.activeInHierarchy)
+        if (dialogueUI.activeInHierarchy)
         {
             inDialogue = true;
             CameraSystem.free = false;
@@ -69,7 +69,6 @@ public class ObjectSelector : MonoBehaviour
         else
         {
             inDialogue = false;
-            CameraSystem.free = true;
         }
     }
 
@@ -189,6 +188,7 @@ public class ObjectSelector : MonoBehaviour
                 audioManager.PlaySFX("Electric");
                 progressBarSystem.OnClick();
                 CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level1);
+                CameraSystem.free = false;
             }
             lamppost.currentState = Lamppost.lampState.Opened;
             electricBox.SetTrigger("Pressed");
@@ -226,6 +226,13 @@ public class ObjectSelector : MonoBehaviour
         keyCollider.enabled = false;
         audioManager.PlaySFX("Button");
         progressBarSystem.OnClick();
+
+        if (tvMechanics.keyCount == 4)
+        {
+            tvMechanics.video.SetActive(true);
+            CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level2);
+            CameraSystem.free = false;
+        }
     }
 
     void HandleBoneInteraction(Collider2D boneCollider)

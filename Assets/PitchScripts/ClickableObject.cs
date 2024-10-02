@@ -26,27 +26,25 @@ public class ClickableObject : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (CameraSystem.free)
+        if (!actionCompleted)
         {
-            if (!actionCompleted)
-            {
-                clickCount++;
-                PlayClickSound();
-                PlayVisualFeedback();
+            clickCount++;
+            PlayClickSound();
+            PlayVisualFeedback();
 
-                if (clickCount >= maxClicks)  // If player reaches max clicks
-                {
-                    TriggerSpecialEffect();
-                    progressBarSystem.OnClick();
-                    clickCount = 0;  // Reset click count for the next stage
-                }
-            }
-            else
+            if (clickCount >= maxClicks)  // If player reaches max clicks
             {
                 TriggerSpecialEffect();
-                PlayVisualFeedback();
+                progressBarSystem.OnClick();
+                clickCount = 0;  // Reset click count for the next stage
             }
         }
+        else
+        {
+            TriggerSpecialEffect();
+            PlayVisualFeedback();
+        }
+
     }
 
     void PlayClickSound()

@@ -13,7 +13,7 @@ public class CrowdManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnCrowd());
+        
     }
 
     private void Update()
@@ -26,7 +26,7 @@ public class CrowdManager : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnCrowd()
+    public IEnumerator SpawnCrowd()
     {
         Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject randomCrowds = crowdPrefab[Random.Range(0, crowdPrefab.Length)];

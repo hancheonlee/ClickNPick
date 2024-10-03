@@ -152,6 +152,7 @@ namespace DialogueEditor
             TurnOnUI();
             m_currentSpeech = m_conversation.Root;
             SetState(eState.TransitioningDialogueBoxOn);
+            CameraSystem.free = false;
         }
 
         public void EndConversation()

@@ -43,11 +43,13 @@ public class ObjectSelector : MonoBehaviour
     private LEDTVMechanics tvMechanics;
     private InformativeObjectBehaviour objects;
     private AudioManager audioManager;
+    private CrowdManager crowdManager;
     private bool inDialogue = false;
 
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
+        crowdManager = FindAnyObjectByType<CrowdManager>();
         tvMechanics = FindAnyObjectByType<LEDTVMechanics>();
         shop = FindAnyObjectByType<ShopUI>();
         progressBarSystem = FindAnyObjectByType<ProgressBarSystem>();
@@ -64,7 +66,6 @@ public class ObjectSelector : MonoBehaviour
         if (dialogueUI.activeInHierarchy)
         {
             inDialogue = true;
-            CameraSystem.free = false;
         }
         else
         {
@@ -83,8 +84,10 @@ public class ObjectSelector : MonoBehaviour
             switch (hit.collider.tag)
             {
                 case "InteractableObject":
-                case "InteractableCharacter":
                     HandleInteractable(hit.collider.gameObject);
+                    break;
+                case "InteractableCharacter":
+                    HandleCharacters(hit.collider.gameObject);
                     break;
                 case "Cats":
                     HandleCatInteraction();
@@ -152,6 +155,23 @@ public class ObjectSelector : MonoBehaviour
         }
     }
 
+    void HandleCharacters(GameObject hitObject)
+    {
+        audioManager.PlaySFX("Select");
+
+        switch (hitObject.gameObject.name)
+        {
+            case "Phil":
+                ConversationManager.Instance.StartConversation(philConversation);
+                break;
+            case "Jake":
+                ConversationManager.Instance.StartConversation(jakeConversation);
+                break;
+            case "Lucy":
+                ConversationManager.Instance.StartConversation(lucyConversation);
+                break;
+        }
+    }
     void HandleCatInteraction()
     {
         audioManager.PlaySFX("Meow");
@@ -189,6 +209,7 @@ public class ObjectSelector : MonoBehaviour
                 progressBarSystem.OnClick();
                 CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level1);
                 CameraSystem.free = false;
+                crowdManager.StartCoroutine(crowdManager.SpawnCrowd());
             }
             lamppost.currentState = Lamppost.lampState.Opened;
             electricBox.SetTrigger("Pressed");
@@ -312,19 +333,6 @@ public class ObjectSelector : MonoBehaviour
             if (objects.gameObject.CompareTag("InteractableObject"))
             {
                 HandleShopInteraction(objects.gameObject);
-            }
-
-            switch (objects.gameObject.name)
-            {
-                case "Phil":
-                    ConversationManager.Instance.StartConversation(philConversation);
-                    break;
-                case "Jake":
-                    ConversationManager.Instance.StartConversation(jakeConversation);
-                    break;
-                case "Lucy":
-                    ConversationManager.Instance.StartConversation(lucyConversation);
-                    break;
             }
 
             DeselectObject();

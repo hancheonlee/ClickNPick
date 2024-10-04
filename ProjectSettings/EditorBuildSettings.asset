@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level Selection.unity
     guid: 1d7f694f624c62a4c8f487e66c8d77b8
+  - enabled: 1
+    path: Assets/Scenes/Built 0.2.unity
+    guid: 99f746abb4e8eff46890328d36129a53
   - enabled: 0
     path: Assets/Scenes/Level 1.unity
     guid: b6f59f69c71fb8242b03209e1b0648ae
@@ -29,7 +32,4 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/prototype_01.unity
     guid: 3ea2ef94cc40b084ba647901397ae629
-  - enabled: 1
-    path: Assets/Scenes/test for zk.unity
-    guid: 99f746abb4e8eff46890328d36129a53
   m_configObjects: {}

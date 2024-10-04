@@ -17,6 +17,6 @@ public class LevelSelector : MonoBehaviour
     public void OpenScene()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("test for zk");
+        SceneManager.LoadSceneAsync(level);
     }
 }

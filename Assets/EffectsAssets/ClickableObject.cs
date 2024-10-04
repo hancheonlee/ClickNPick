@@ -7,6 +7,7 @@ public class ClickableObject : MonoBehaviour
     public GameObject specialEffect;       // Particle effect
     public int maxClicks = 5;              // Max clicks before special effect or change
     public float fadeDuration = 1.0f;      // Time needed to fade out
+    public bool addProgress;
 
     public Sprite bench;
     public Sprite trashCanClean;
@@ -37,7 +38,10 @@ public class ClickableObject : MonoBehaviour
                 if (clickCount >= maxClicks)  // If player reaches max clicks
                 {
                     TriggerSpecialEffect();
-                    progressBarSystem.OnClick();
+                    if (addProgress)
+                    {
+                        progressBarSystem.OnClick();
+                    }
                     clickCount = 0;  // Reset click count for the next stage
                 }
             }
@@ -91,6 +95,9 @@ public class ClickableObject : MonoBehaviour
             case "Sprinkler":
                 PlayAnimation();
                 break;
+            case "Car":
+                PlaySFX();
+                break;
         }
     }
 
@@ -118,6 +125,15 @@ public class ClickableObject : MonoBehaviour
         if (gameObject.CompareTag("Sprinkler"))
         {
             animator.SetTrigger("Grow");
+        }
+    }
+
+    public void PlaySFX()
+    {
+        actionCompleted = true;
+        if (gameObject.CompareTag("Car"))
+        {
+            AudioManager.Instance.PlaySFX("Engine");
         }
     }
 

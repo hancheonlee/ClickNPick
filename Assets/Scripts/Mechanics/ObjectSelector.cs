@@ -6,7 +6,6 @@ using UnityEngine;
 public class ObjectSelector : MonoBehaviour
 {
     [Header("Object Interactions")]
-    [SerializeField] private GameObject wire;
     [SerializeField] private Lamppost lamppost;
     [SerializeField] private Animator electricBox;
     [SerializeField] private GameObject electricBoxCol;
@@ -45,6 +44,7 @@ public class ObjectSelector : MonoBehaviour
     private AudioManager audioManager;
     private CrowdManager crowdManager;
     private bool inDialogue = false;
+    private Gate gate;
 
     private void Start()
     {
@@ -53,12 +53,13 @@ public class ObjectSelector : MonoBehaviour
         tvMechanics = FindAnyObjectByType<LEDTVMechanics>();
         shop = FindAnyObjectByType<ShopUI>();
         progressBarSystem = FindAnyObjectByType<ProgressBarSystem>();
+        gate = FindAnyObjectByType<Gate>(); 
     }
 
     private void Update()
     {
         // Mouse Input
-        if (Input.GetMouseButtonDown(0) && !inDialogue)
+        if (Input.GetMouseButtonDown(0) && !inDialogue && CameraSystem.free)
         {
             HandleInput(Input.mousePosition);
         }
@@ -95,9 +96,6 @@ public class ObjectSelector : MonoBehaviour
                 case "Dogs":
                     HandleDogInteraction();
                     break;
-                case "Lamp":
-                    HandleLampInteraction();
-                    break;
                 case "ElectricBox":
                     HandleElectricBoxInteraction();
                     break;
@@ -124,6 +122,9 @@ public class ObjectSelector : MonoBehaviour
                     break;
                 case "Smoke":
                     HandleSmokeInteraction();
+                    break;
+                case "Gate":
+                    HandleGateInteraction(hit.collider.gameObject);
                     break;
                 default:
                     DeselectObject();
@@ -187,18 +188,6 @@ public class ObjectSelector : MonoBehaviour
         audioManager.PlaySFX("smokepoof");
     }
 
-    void HandleLampInteraction()
-    {
-        if (objects != null)
-        {
-            objects.selected = false;
-        }
-
-        objects = wire.GetComponent<InformativeObjectBehaviour>();
-        objects.selected = true;
-        audioManager.PlaySFX("Highlight");
-    }
-
     void HandleElectricBoxInteraction()
     {
         if (electricBox.GetBool("Open"))
@@ -210,6 +199,7 @@ public class ObjectSelector : MonoBehaviour
                 CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level1);
                 CameraSystem.free = false;
                 crowdManager.StartCoroutine(crowdManager.SpawnCrowd());
+                gate.OpenGate();
             }
             lamppost.currentState = Lamppost.lampState.Opened;
             electricBox.SetTrigger("Pressed");
@@ -299,6 +289,18 @@ public class ObjectSelector : MonoBehaviour
         shops = shopGameObject.GetComponent<Shop>();
         shop.UpdateShopUI(shops.shopTitle, shops.shopInfo);
         shop.ShopAnimation();
+    }
+
+    void HandleGateInteraction(GameObject hitObject)
+    {
+        if (hitObject == null)
+        {
+            DeselectObject();
+        }
+        else
+        {
+            SelectObject(hitObject);
+        }
     }
 
     #endregion

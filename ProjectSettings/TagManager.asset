@@ -30,6 +30,8 @@ TagManager:
   - Sprinkler
   - TrashCan
   - Smoke
+  - Gate
+  - Car
   layers:
   - Default
   - TransparentFX

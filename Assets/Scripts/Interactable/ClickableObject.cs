@@ -139,7 +139,7 @@ public class ClickableObject : MonoBehaviour
 
     private IEnumerator FadeOutRoutine()
     {
-        BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
+        Collider2D collider = gameObject.GetComponent<Collider2D>();
         collider.enabled = false;
         float timer = 0f;
         Color currentColor = spriteRenderer.color;

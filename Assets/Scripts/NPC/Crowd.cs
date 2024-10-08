@@ -35,7 +35,7 @@ public class Crowd : MonoBehaviour
 
         if (Vector3.Distance(this.transform.position, waypoint.transform.position) <= 2f)
         {
-            StartCoroutine(FadeOutRoutine());
+            FindWaypoint();
         }
     }
 

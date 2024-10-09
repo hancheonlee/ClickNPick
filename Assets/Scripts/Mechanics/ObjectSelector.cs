@@ -22,9 +22,10 @@ public class ObjectSelector : MonoBehaviour
 
     [Header("Mood and Animations")]
     [SerializeField] private Animator bone;
-    [SerializeField] private Animator dogMood;
+    [SerializeField] private SpriteRenderer dogMood;
     [SerializeField] private Animator salmon;
-    [SerializeField] private Animator catMood;
+    [SerializeField] private SpriteRenderer catMood;
+    [SerializeField] private Sprite happyMood;
     [SerializeField] private GameObject mood;
     [SerializeField] private GameObject moodCat;
     public bool boneDropped;
@@ -194,7 +195,7 @@ public class ObjectSelector : MonoBehaviour
         {
             if (lamppost.currentState != Lamppost.lampState.Opened)
             {
-                audioManager.PlaySFX("Electric");
+                StartCoroutine(LevelCompleteSFX());
                 progressBarSystem.OnClick();
                 CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level1);
                 CameraSystem.free = false;
@@ -241,9 +242,16 @@ public class ObjectSelector : MonoBehaviour
         if (tvMechanics.keyCount == 4)
         {
             tvMechanics.video.SetActive(true);
+            StartCoroutine(LevelCompleteSFX());
             CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level2);
             CameraSystem.free = false;
         }
+    }
+
+    public IEnumerator LevelCompleteSFX()
+    {
+        yield return new WaitForSeconds(1f);
+        audioManager.PlaySFX("Win");
     }
 
     void HandleBoneInteraction(Collider2D boneCollider)
@@ -251,18 +259,13 @@ public class ObjectSelector : MonoBehaviour
         bone.SetTrigger("Fall");
         boneCollider.enabled = false;
         boneDropped = true;
+        dogMood.sprite = happyMood;
         progressBarSystem.OnClick();
     }
 
     void HandleSpecialDogInteraction()
     {
         audioManager.PlaySFX("Bark");
-        StartCoroutine(ShowMoodForTwoSeconds());
-
-        if (boneDropped)
-        {
-            dogMood.SetTrigger("Happy");
-        }
     }
 
     void HandleWaterPuddleInteraction(Collider2D puddleCollider)
@@ -270,18 +273,13 @@ public class ObjectSelector : MonoBehaviour
         salmon.SetTrigger("JumpOutWater");
         puddleCollider.enabled = false;
         salmonJumped = true;
+        catMood.sprite = happyMood;
         progressBarSystem.OnClick();
     }
 
     void HandleFishCatInteraction()
     {
         audioManager.PlaySFX("Meow");
-        StartCoroutine(ShowMoodForTwoSeconds());
-
-        if (salmonJumped)
-        {
-            catMood.SetTrigger("Happy");
-        }
     }
 
     void HandleShopInteraction(GameObject shopGameObject)
@@ -339,15 +337,6 @@ public class ObjectSelector : MonoBehaviour
 
             DeselectObject();
         }
-    }
-
-    IEnumerator ShowMoodForTwoSeconds()
-    {
-        mood.SetActive(true);  // Show mood
-        moodCat.SetActive(true); // Show Cat's Mood
-        yield return new WaitForSeconds(2); // Wait for 2 seconds
-        mood.SetActive(false); // Hide mood
-        moodCat.SetActive(false); // Hide Cat's Mood
     }
 
     void SpawnVFX()

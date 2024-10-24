@@ -16,6 +16,7 @@ public class CameraSystem : MonoBehaviour
 
     [Header("Camera Settings")]
     public float dragSpeed = 1.5f;
+    public float keyBoardDragSpeed = 20f;
     public float zoomSpeed = 2.5f; 
     public float minZoom = 5.0f;   
     public float maxZoom = 9.0f;
@@ -44,6 +45,7 @@ public class CameraSystem : MonoBehaviour
     private float scrollInput;
     private GameObject currentTransitionCamera;
     private LevelText levelText;
+    private SpeechBubble hintText;
 
     public enum Levels
     {
@@ -52,6 +54,7 @@ public class CameraSystem : MonoBehaviour
 
     private void Awake()
     {
+
         if (Instance == null)
         {
             Instance = this;
@@ -64,12 +67,14 @@ public class CameraSystem : MonoBehaviour
 
     private void Start()
     {
+        levelText = FindAnyObjectByType<LevelText>();
+        hintText = FindAnyObjectByType<SpeechBubble>();
         mainCamera = Camera.main;
         cinemachineBrain = GetComponent<CinemachineBrain>();
         virtualCamera = playerCam.GetComponent<CinemachineVirtualCamera>();
         zoomCamera = zoomCam.GetComponent<CinemachineVirtualCamera>();
         confiner = playerCam.GetComponent<CinemachineConfiner2D>();
-        levelText = FindAnyObjectByType<LevelText>();
+
         StartCoroutine(HandleCameraMovement());
         StartCoroutine(HandleCameraZoom()); 
         LevelSwitcher(Levels.Level0);
@@ -86,6 +91,18 @@ public class CameraSystem : MonoBehaviour
                     dragOrigin = mainCamera.ScreenToWorldPoint(Input.mousePosition);
                     StartCoroutine(DragCamera());
                 }
+
+                float horizontalInput = Input.GetAxis("Horizontal");
+                float verticalInput = Input.GetAxis("Vertical");
+
+                Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0);
+
+                if (moveDirection != Vector3.zero)
+                {
+                    playerCam.transform.position += moveDirection * keyBoardDragSpeed * Time.deltaTime;
+                    ClampCameraPosition();
+                }
+
             }
             yield return null;
         }
@@ -108,10 +125,24 @@ public class CameraSystem : MonoBehaviour
         {
             if (free)
             {
-                scrollInput = Input.GetAxis("Mouse ScrollWheel");
+                scrollInput = Input.GetAxis("Mouse ScrollWheel") * 10;
+
+                if (Input.GetKey(KeyCode.E))
+                {
+                    scrollInput = -0.1f; // Zoom out
+                }
+                else if (Input.GetKey(KeyCode.Q))
+                {
+                    scrollInput = 0.1f; // Zoom in
+                }
+
                 if (scrollInput != 0)
                 {
+                    float targetZoom = virtualCamera.m_Lens.OrthographicSize - scrollInput * zoomSpeed * Time.deltaTime;
                     virtualCamera.m_Lens.OrthographicSize = Mathf.Clamp(virtualCamera.m_Lens.OrthographicSize - scrollInput * zoomSpeed, minZoom, maxZoom);
+                    virtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(virtualCamera.m_Lens.OrthographicSize,
+                                                                    targetZoom,
+                                                                    0.1f);
                 }
             }
             yield return null;
@@ -185,18 +216,21 @@ public class CameraSystem : MonoBehaviour
             transitionCamera = transitionCam0.GetComponent<CinemachineVirtualCamera>();
             currentTransitionCamera = transitionCam0;
             levelText.UpdateText(0);
+            hintText.UpdateHintText(0);
         }
         else if (currentLevel == Levels.Level1)
         {
             transitionCamera = transitionCam1.GetComponent<CinemachineVirtualCamera>();
             currentTransitionCamera = transitionCam1;
             levelText.UpdateText(1);
+            hintText.UpdateHintText(1);
         }
         else if (currentLevel == Levels.Level2)
         {
             transitionCamera = transitionCam2.GetComponent<CinemachineVirtualCamera>();
             currentTransitionCamera = transitionCam2;
             levelText.UpdateText(2);
+            hintText.UpdateHintText(2);
         }
 
         playerCam.SetActive(false);

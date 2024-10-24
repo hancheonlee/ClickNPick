@@ -44,7 +44,7 @@ public class ObjectSelector : MonoBehaviour
     private InformativeObjectBehaviour objects;
     private AudioManager audioManager;
     private CrowdManager crowdManager;
-    private bool inDialogue = false;
+    public static bool inDialogue = false;
     private Gate gate;
 
     private void Start()
@@ -126,6 +126,9 @@ public class ObjectSelector : MonoBehaviour
                     break;
                 case "Gate":
                     HandleGateInteraction(hit.collider.gameObject);
+                    break;
+                case "WaterFountain":
+                    HandleWaterFountainInteraction(hit.collider.gameObject);
                     break;
                 default:
                     DeselectObject();
@@ -299,6 +302,12 @@ public class ObjectSelector : MonoBehaviour
         {
             SelectObject(hitObject);
         }
+    }
+
+    void HandleWaterFountainInteraction(GameObject hitObject)
+    {
+        WaterFountainSystem WaterFountain = hitObject.GetComponent<WaterFountainSystem>();
+        WaterFountain.OpenUI();
     }
 
     #endregion

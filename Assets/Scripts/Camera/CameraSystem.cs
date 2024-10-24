@@ -45,7 +45,7 @@ public class CameraSystem : MonoBehaviour
     private float scrollInput;
     private GameObject currentTransitionCamera;
     private LevelText levelText;
-    private HintText hintText;
+    private SpeechBubble hintText;
 
     public enum Levels
     {
@@ -68,7 +68,7 @@ public class CameraSystem : MonoBehaviour
     private void Start()
     {
         levelText = FindAnyObjectByType<LevelText>();
-        hintText = FindAnyObjectByType<HintText>();
+        hintText = FindAnyObjectByType<SpeechBubble>();
         mainCamera = Camera.main;
         cinemachineBrain = GetComponent<CinemachineBrain>();
         virtualCamera = playerCam.GetComponent<CinemachineVirtualCamera>();

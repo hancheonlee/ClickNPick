@@ -17,6 +17,8 @@ public class CursorManager : MonoBehaviour
 
     public cursorState currentState;
 
+    public static bool enableCursor = true;
+
     public enum cursorState
     {
         Idle, Grabbing, Object, Character, Water
@@ -30,53 +32,56 @@ public class CursorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StateControl();
-
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-
-        if (hit.collider != null)
+        if (enableCursor)
         {
-            if (hit.collider.CompareTag("InteractableObject") || hit.collider.CompareTag("ElectricBox")
-                || hit.collider.CompareTag("ElectricBoxDoor") || hit.collider.CompareTag("Lamp")
-                || hit.collider.CompareTag("Key") || hit.collider.CompareTag("LEDTV") || hit.collider.CompareTag("Leaves")
-                || hit.collider.CompareTag("Bench") || hit.collider.CompareTag("Bone") || hit.collider.CompareTag("WaterPuddle")
-                || hit.collider.CompareTag("TrashCan"))
+            StateControl();
+
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+            if (hit.collider != null)
             {
-                currentState = cursorState.Object;
-            }
-            else if (hit.collider.CompareTag("InteractableCharacter"))
-            {
-                currentState = cursorState.Character;
-            }
-            else if (hit.collider.CompareTag("Sprinkler"))
-            {
-                currentState = cursorState.Water;
-            }
-        }
-        else
-        {
-            if (clickTime > clickHoldTime)
-            {
-                currentState = cursorState.Grabbing;
+                if (hit.collider.CompareTag("InteractableObject") || hit.collider.CompareTag("ElectricBox")
+                    || hit.collider.CompareTag("ElectricBoxDoor") || hit.collider.CompareTag("Lamp")
+                    || hit.collider.CompareTag("Key") || hit.collider.CompareTag("LEDTV") || hit.collider.CompareTag("Leaves")
+                    || hit.collider.CompareTag("Bench") || hit.collider.CompareTag("Bone") || hit.collider.CompareTag("WaterPuddle")
+                    || hit.collider.CompareTag("TrashCan"))
+                {
+                    currentState = cursorState.Object;
+                }
+                else if (hit.collider.CompareTag("InteractableCharacter"))
+                {
+                    currentState = cursorState.Character;
+                }
+                else if (hit.collider.CompareTag("Sprinkler"))
+                {
+                    currentState = cursorState.Water;
+                }
             }
             else
             {
-                currentState = cursorState.Idle;
+                if (clickTime > clickHoldTime)
+                {
+                    currentState = cursorState.Grabbing;
+                }
+                else
+                {
+                    currentState = cursorState.Idle;
+                }
             }
-        }
 
-        if (Input.GetMouseButtonDown(0)) // Left-click
-        {
-            clickTime = 0;
-        }
-        if (Input.GetMouseButton(0)) // Left-click
-        {
-            clickTime += Time.deltaTime; // Start timing
-        }
-        if (Input.GetMouseButtonUp(0)) // Left-click
-        {
-            clickTime = 0;
+            if (Input.GetMouseButtonDown(0)) // Left-click
+            {
+                clickTime = 0;
+            }
+            if (Input.GetMouseButton(0)) // Left-click
+            {
+                clickTime += Time.deltaTime; // Start timing
+            }
+            if (Input.GetMouseButtonUp(0)) // Left-click
+            {
+                clickTime = 0;
+            }
         }
     }
 

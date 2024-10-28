@@ -92,13 +92,13 @@ public class UIController : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("prototype_01");
+        SceneManager.LoadScene("Built 0.2");
     }
 
     public void MainMenu()
     {
         
-        SceneManager.LoadScene("Level 0");
+        SceneManager.LoadScene("Main Menu");
     }
     
 

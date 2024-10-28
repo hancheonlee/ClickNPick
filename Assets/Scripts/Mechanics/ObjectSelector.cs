@@ -47,6 +47,8 @@ public class ObjectSelector : MonoBehaviour
     public static bool inDialogue = false;
     private Gate gate;
 
+    public GameObject endGameText;
+
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
@@ -248,6 +250,7 @@ public class ObjectSelector : MonoBehaviour
             StartCoroutine(LevelCompleteSFX());
             CameraSystem.Instance.LevelSwitcher(CameraSystem.Levels.Level2);
             CameraSystem.free = false;
+            endGameText.SetActive(true);
         }
     }
 

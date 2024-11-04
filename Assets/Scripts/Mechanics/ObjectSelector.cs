@@ -89,6 +89,7 @@ public class ObjectSelector : MonoBehaviour
             {
                 case "InteractableObject":
                     HandleInteractable(hit.collider.gameObject);
+                    AudioManager.Instance.PlaySFX("Shops");
                     break;
                 case "InteractableCharacter":
                     HandleCharacters(hit.collider.gameObject);
@@ -132,6 +133,35 @@ public class ObjectSelector : MonoBehaviour
                 case "WaterFountain":
                     HandleWaterFountainInteraction(hit.collider.gameObject);
                     break;
+                case "Stone": 
+                    AudioManager.Instance.PlaySFX("Stone");
+                    break;
+                case "GreenBush":
+                    AudioManager.Instance.PlaySFX("GreenBush");
+                    break;
+                case "Leaves":
+                    AudioManager.Instance.PlaySFX("BrownBush");
+                    break;
+                case "TrashCan":
+                    AudioManager.Instance.PlaySFX("Dustbin");
+                    break;
+                case "Mushroom":
+                    AudioManager.Instance.PlaySFX("Mushroom");
+                    break;
+                case "Miniflower":
+                    AudioManager.Instance.PlaySFX("Miniflower");
+                    break;
+                case "Grass":
+                    AudioManager.Instance.PlaySFX("Grass");
+                    break;
+                case "DontTouchMe":
+                    AudioManager.Instance.PlaySFX("DontTouchMe");
+                    break;
+                case "Bench":
+                    AudioManager.Instance.PlaySFX("Bench");
+                    break;
+                
+
                 default:
                     DeselectObject();
                     CameraSystem.Instance.ZoomOut();

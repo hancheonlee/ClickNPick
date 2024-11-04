@@ -35,6 +35,13 @@ TagManager:
   - WaterFountain
   - Image
   - Spider
+  - Stone
+  - GreenBush
+  - BrownBush
+  - Mushroom
+  - Miniflower
+  - Grass
+  - DontTouchMe
   layers:
   - Default
   - TransparentFX

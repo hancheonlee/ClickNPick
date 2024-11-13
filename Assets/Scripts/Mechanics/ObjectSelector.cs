@@ -28,12 +28,11 @@ public class ObjectSelector : MonoBehaviour
     [SerializeField] private Sprite happyMood;
     [SerializeField] private GameObject mood;
     [SerializeField] private GameObject moodCat;
-    public bool boneDropped;
-    public bool salmonJumped;
+    private bool boneDropped;
+    private bool salmonJumped;
 
-    [Header("Shop and Progress UI")]
-    [SerializeField] private ShopUI shop;
-    [SerializeField] private ProgressBarSystem progressBarSystem;
+    private ShopUI shop;
+    private ProgressBarSystem progressBarSystem;
 
     [Header("VFX")]
     [SerializeField] private GameObject clickVFX;
@@ -47,6 +46,7 @@ public class ObjectSelector : MonoBehaviour
     public static bool inDialogue = false;
     private Gate gate;
 
+    [Header("End of Build")]
     public GameObject endGameText;
 
     private void Start()

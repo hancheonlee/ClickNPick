@@ -160,7 +160,29 @@ public class ObjectSelector : MonoBehaviour
                 case "Bench":
                     AudioManager.Instance.PlaySFX("Bench");
                     break;
+                case "Kotakoren":
+                    AudioManager.Instance.PlaySFX("Kotakoren");
+                    break;
+                case "Sprinkler":
+                    AudioManager.Instance.PlaySFX("Miniflower");
+                    break;
+                case "Cone":
+                    AudioManager.Instance.PlaySFX("Plastic");
+                    break;
+                case "FrontGate":
+                    AudioManager.Instance.PlaySFX("FrontGate");
+                    break;
+                case "TicketBooth1":
+                    AudioManager.Instance.PlaySFX("GM");
+                    break;
+                case "TicketBooth2":
+                    AudioManager.Instance.PlaySFX("Hey");
+                    break;
+                case "Lamp":
+                    AudioManager.Instance.PlaySFX("Lamp");
+                    break;
                 
+
 
                 default:
                     DeselectObject();

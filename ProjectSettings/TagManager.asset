@@ -42,6 +42,13 @@ TagManager:
   - Miniflower
   - Grass
   - DontTouchMe
+  - Kotakoren
+  - Cone
+  - FrontGate
+  - TicketBooth1
+  - TicketBooth2
+  - UP
+  - DOWN
   layers:
   - Default
   - TransparentFX

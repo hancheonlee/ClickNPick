@@ -135,6 +135,7 @@ public class ClickableObject : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX("Engine");
         }
+        
     }
 
     private IEnumerator FadeOutRoutine()
